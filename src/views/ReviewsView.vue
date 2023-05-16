@@ -239,71 +239,25 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Header from "../components/Header";
-import Inventory from "@/components/Inventory";
 // import StarRating from 'vue-star-rating'
 
 // Vue.component('star-rating', StarRating)
 
 
 export default {
-  name: 'InventoryView',
+  name: 'ReviewsView',
   components: {
-    Header,
-    Inventory,
     // StarRating
   },
   data() {
     return {
-      imageData: "", // we will store base64 format of image in this string
-      showProductInventory: false,
-      noProduct: false,
-      activeTab: '1',
-      rating: 3.8,
-      max: 50,
-      fiveStarValue: 75,
-      fourStarValue: 16,
-      threeStarValue: 5,
-      twoStarValue: 5,
-      oneStarValue: 1,
     }
   },
   methods:{
-    addButton() {
-      this.addProduct()
-    },
-    previewImage: function (event) {
-      // Reference to the DOM input element
-      var input = event.target;
-      console.log("hello")
-      // Ensure that you have a file before attempting to read it
-      if (input.files && input.files[0]) {
-        // create a new FileReader to read this image and convert to base64 format
-        var reader = new FileReader();
-        // Define a callback function to run, when FileReader finishes its job
-        reader.onload = (e) => {
-          // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
-          // Read image as base64 and set to imageData
-          this.imageData = e.target.result;
-        };
-        // Start the reader job - read file as a data url (base64 format)
-        reader.readAsDataURL(input.files[0]);
-      }
-    },
-    addProduct(){
-      console.log('clicked')
-      this.showProductInventory = true;
-      this.noProduct = true;
-    },
-    setRating: function(rating) {
-      this.rating = rating;
-    }
+ 
   },
 	computed: {
-		...mapGetters({
-			has_product: 'getHasProduct', // this should not be needed because it is already in <Inventory /> using to check if user has product
-		}),
+
 	},
 }
 </script>

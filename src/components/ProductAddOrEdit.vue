@@ -1,25 +1,8 @@
 <template>
   <div class="container">
     <Header @add-button="addButton"></Header>
-
-    <section v-if="!has_product" id="inventory">
-      <div class="text-center">
-        <div class="empty"  :class="{'active' : noProduct}">
-          <div class="content-wrapper">
-            <img src="../assets/images/no-product-added-image.png" alt="">
-            <h2>No products added</h2>
-            <p class="dark">Add products to your store so you can <br>
-              take orders easily.</p>
-            <a class="btn-style" @click="addProduct">Add Product</a>
-          </div>
-        </div>
-      </div>
-    </section>
-    <div v-else>
-      <Inventory></Inventory>
-
-      <!-- add product -->
-      <div v-if="header" id="add-product-modal"  ref="close-product-modal" title="BootstrapVue">
+    <div>
+      <div v-if="view" id="add-product-modal"  ref="close-product-modal" title="BootstrapVue">
         <div class="product-body-wrapper">
           <div class="product-header">
             <h3 @click="$bvModal.hide('add-product-modal')" class="close-popup">Add Product</h3>
@@ -57,57 +40,7 @@
           </div>
         </div>
       </div>
-
-      <!-- display proudct -->
-      <div v-if="header" id="detail-product-modal"  ref="close-product-modal" title="BootstrapVue">
-        <div class="edit-product-body-wrapper">
-          <div class="product-header">
-            <h3 @click="$bvModal.hide('detail-product-modal')" class="close-popup">Product</h3>
-          </div>
-          <div class="product-body">
-            <div class="img-wrapper">
-              <img src="../assets/images/detail-products-image-1.png" alt="">
-            </div>
-            <div class="product-detail-wrapper">
-              <div class="product-detail">
-                <div class="row">
-                  <div class="col-6">
-                    <span>Product Name</span>
-                  </div>
-                  <div class="col-6">
-                    <h3>Gaiai Dress, XL</h3>
-                  </div>
-                </div>
-              </div>
-              <div class="product-detail">
-                <div class="row">
-                  <div class="col-6">
-                    <span>Price</span>
-                  </div>
-                  <div class="col-6">
-                    <h3>N95,620.99</h3>
-                  </div>
-                </div>
-              </div>
-              <div class="product-detail">
-                <div class="product-description">
-                  <span>Description</span>
-                  <p>Lorem Ipsum is simply dummy text of the printing
-                    and typesetting industry. Lorem Ipsum has been the
-                    industry's standard dummy text ever since the 1500s</p>
-                </div>
-              </div>
-            </div>
-            <div class="product-btn">
-              <a href="#" class="btn-delete">Delete</a>
-              <a href="#" class="btn-edit" v-div.edit-product-modal>Edit</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- edit product -->
-      <div v-if="header" id="edit-product-modal"  ref="close-product-modal" title="BootstrapVue">
+      <div v-else id="edit-product-modal"  ref="close-product-modal" title="BootstrapVue">
         <div class="product-body-wrapper">
           <div class="product-header">
             <h3 @click="$bvModal.hide('edit-product-modal')" class="close-popup">Edit Product</h3>
@@ -147,24 +80,21 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import Header from "../components/Header";
-import Inventory from "@/components/Inventory";
 // import StarRating from 'vue-star-rating'
 
 // Vue.component('star-rating', StarRating)
 
 
 export default {
-  name: 'InventoryView',
+  name: 'AddOrEditProduct',
   components: {
     Header,
-    Inventory,
     // StarRating
   },
   data() {

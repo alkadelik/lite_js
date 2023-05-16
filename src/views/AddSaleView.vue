@@ -2,7 +2,7 @@
   <div class="home">
     <div id="sales">
       <div>
-        <SalesInventory v-if="show_sales_inventory" @open-cart="openCart"></SalesInventory>
+        <Products v-if="show_sales_inventory" @open-cart="openCart"></Products>
         <Cart v-if="show_cart" @select-customer="selectCustomer"></Cart>
         <Customers v-if="show_customers" @checkout="checkout"></Customers>
         <Checkout v-if="show_checkout"></Checkout>
@@ -34,8 +34,8 @@
 <script>
 import Cart from '@/components/Cart'
 import Checkout from '@/components/Checkout'
-import Customers from '@/components/Customers'
-import SalesInventory from '@/components/SalesInventory'
+import Customers from '@/components/CustomerList'
+import Products from '@/components/ProductShopFloor'
 
 // Vue.component('star-rating', StarRating)
 
@@ -50,7 +50,7 @@ components: {
   Cart,
   Checkout,
   Customers,
-  SalesInventory,
+  Products,
 },
 data() {
   return {

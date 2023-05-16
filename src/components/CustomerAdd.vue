@@ -173,6 +173,7 @@ export default {
 			// check that it's complete before submitting
 			saveCustomer(this.customer)
 			.then((res) => {
+
 				this.$store.commit(SAVE_NEW_CUSTOMER, res.data.customer)
 			})
 			// give success/failed feedback

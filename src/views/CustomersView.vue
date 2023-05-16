@@ -24,8 +24,8 @@
 
 <script>
 import { mapGetters } from "vuex";
-import AddCustomer from "../components/AddCustomer";
-import Customers from "../components/Customers";
+import AddCustomer from "../components/CustomerAdd";
+import Customers from "../components/CustomerList";
 import Header from "../components/Header";
 
 export default {
