@@ -68,9 +68,6 @@ export default {
       this.$store.commit(SAVE_NAVIGATION, n)
     }
   },
-  mounted() {
-    this.emitter.on('hideMenu', (state) => this.hide_menu = state)
-  }
 
   /* 
   DOCUMENTATION

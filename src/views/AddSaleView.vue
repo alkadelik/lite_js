@@ -4,7 +4,7 @@
       <div>
         <Products v-if="show_sales_inventory" @open-cart="openCart"></Products>
         <Cart v-if="show_cart" @select-customer="selectCustomer"></Cart>
-        <Customers v-if="show_customers" @checkout="checkout" :displayNextBtn="hideNextBtnInCustomerList"></Customers>
+        <Customers v-if="show_customers" @checkout="checkout"></Customers>
         <Checkout v-if="show_checkout"></Checkout>
 
 
@@ -93,11 +93,6 @@ export default {
       // this.is_active = true
     }
   },
-  computed: {
-    hideNextBtnInCustomerList() {
-      return false
-    }
-  }
 }
 
   /* 

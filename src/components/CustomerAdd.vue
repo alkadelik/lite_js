@@ -181,7 +181,7 @@ export default {
 		}
 	},
 	mounted() {
-    this.emitter.emit('hideHeader', false)
+    // this.emitter.emit('hideHeader', false)
   }
 }
 </script>

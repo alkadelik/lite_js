@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios'
-import mitt from 'mitt'
+// import mitt from 'mitt'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
@@ -13,9 +13,9 @@ if (token) {
   axios.defaults.headers.common["Authorization"] = `Token ${token}`;
 }
 
-const emitter = mitt()
-const app = createApp(App)
-app.config.globalProperties.emitter = emitter
+// const emitter = mitt()
+// const app = createApp(App)
+// app.config.globalProperties.emitter = emitter
 
 
 // from fiver contract
@@ -39,4 +39,5 @@ app.config.globalProperties.emitter = emitter
     // Vue.config.productionTip = false
 // end fiver contract
 
-app.use(store).use(router).mount('#app')
+// app.use(store).use(router).mount('#app')
+createApp(App).use(store).use(router).mount('#app')

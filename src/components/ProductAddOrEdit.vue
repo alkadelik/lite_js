@@ -142,9 +142,6 @@ export default {
 			has_product: 'getHasProduct', // this should not be needed because it is already in <Inventory /> using to check if user has product
 		}),
 	},
-  mounted() {
-    // this.emitter.emit('hideMenu', true)
-  }
 }
 </script>
 

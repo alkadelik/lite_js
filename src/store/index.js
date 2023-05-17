@@ -23,6 +23,12 @@ export default createStore({
     cart_objects: [],
     customers: [],
     checkout_customer: {},
+    component_settings: {
+      display_header: null,
+      display_navigation: null,
+      display_next_button: null,
+      display_add_button: null,
+    },
     email_verified: false,
     filter_option: 'Customer name',
     has_product: false,
@@ -31,7 +37,6 @@ export default createStore({
     inventory: [],
     logged_in: false,
     metrics: {},
-    nav_position: null,
     settings: false, // view settings menu
     settlement: {},
     store: {},
@@ -67,7 +72,7 @@ export default createStore({
       state.customers.push(data);
     },
     [mutationTypes.SAVE_NAVIGATION](state, data) {
-      state.nav_position = data;
+      state.component_settings.display_header = data;
     },
     [mutationTypes.SAVE_SELECTED_CUSTOMER](state, data) {
       state.checkout_customer = data;
@@ -131,7 +136,7 @@ export default createStore({
     getHasProduct: (state) => state.has_product,
     getHasSale: (state) => state.has_sale,
     getMetrics: (state) => state.metrics,
-    getNavPosition: (state) => state.nav_position,
+    getComponentSettings: (state) => state.component_settings,
     getInventory: (state) => state.inventory,
     getLoggedIn: (state) => state.logged_in,
     getOrders: (state) => state.orders,

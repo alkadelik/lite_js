@@ -110,11 +110,11 @@ export default {
 	},
   computed: {
     ...mapGetters({
-      position: 'getNavPosition',
+      position: 'getComponentSettings',
     })
   },
   mounted() {
-    switch(this.position) {
+    switch(this.position.display_header) {
       case 0:
         this.show_add_button=false
         break;
@@ -124,7 +124,7 @@ export default {
         this.show_add_button=true
     }
 
-    this.emitter.on('hideHeader', (state) => this.show_add_button = state)
+    // this.emitter.on('hideHeader', (state) => this.show_add_button = state)
   }
 }
 
