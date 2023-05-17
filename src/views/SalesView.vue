@@ -1,14 +1,7 @@
 <template>
-  <div class="home">
-    <Header 
-      pageTitle="Sales" 
-      :addProduct="true"
-      @add-button="addButton"
-    ></Header>
+  <div class="container">
+    <Header pageTitle="Sales" :addProduct="true" @add-button="addButton"></Header>
     <!-- :isActive="is_active" -->
-  </div>
-
-  <div id="sales">
     <div v-if="no_sale" class="empty">
       <div class="">
         <img src="../assets/images/no-product-added-image.png" alt="">
@@ -16,7 +9,7 @@
         <a class="btn-style" @click="addButton">Add Sale</a>
       </div>
     </div>
-    <div v-else id="sales">
+    <div v-else class="nav-margin-top">
       <Orders v-for="order, i in orders" :key="'order' + i" :order="order" :index="i"></Orders>
     </div>
   </div>
@@ -44,7 +37,7 @@ data() {
 },
 methods:{
   addButton() {
-    this.$router.push({name: 'sales'})
+    this.$router.push({name: 'add_sale'})
   },
 },
 computed: {

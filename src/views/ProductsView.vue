@@ -14,32 +14,26 @@
         </div>
       </div>
     </section>
-    <div v-else>
+    <div v-else class="nav-margin-top">
       <ProductList v-if="show_products"></ProductList>
-      <AddOrEdit v-if="add_product" :product="product"></AddOrEdit>
-      <ProductDetails v-if="show_details" :product="product"></ProductDetails>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Header from "../components/Header";
-import AddOrEdit from "@/components/ProductAddOrEdit";
-import ProductDetails from "@/components/ProductDetails";
-import ProductList from "@/components/ProductList";
+import { mapGetters } from "vuex"
+import Header from "../components/Header"
+import ProductList from "@/components/ProductList"
+import { SET_PRODUCT_TO_BE_EDITTED } from "@/store/mutationTypes";
 
 export default {
   name: 'InventoryView',
   components: {
-    AddOrEdit,
     Header,
-    ProductDetails,
     ProductList,
   },
   data() {
     return {
-      add_product: false,
       no_product: true,
       product: {},
       show_products: true,
@@ -49,11 +43,8 @@ export default {
     addButton() {
       this.addProduct()
     },
-    addProduct(product){
-      product ? this.product = product : this.product = {}
-      this.no_product = false
-      this.show_products = false
-      this.add_product = true
+    addProduct(){
+      this.$router.push({name: 'add_product'})
     },
     showDetails(product) {
       this.product = product
@@ -68,6 +59,7 @@ export default {
 	},
   mounted() {
     this.has_product == true ? this.no_product = false : ''
+    this.$store.commit(SET_PRODUCT_TO_BE_EDITTED, {})
   }
 }
 </script>

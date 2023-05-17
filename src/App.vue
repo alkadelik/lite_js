@@ -1,5 +1,6 @@
 <template>
   <router-view/>
+  <div class="menu-padding"></div>
   <Menu v-if="logged_in"></Menu>
 </template>
 
@@ -31,6 +32,10 @@ export default {
 </script>
 
 <style>
+.menu-padding {
+  height: 70px;
+  width: 100%;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -99,5 +104,8 @@ nav a.router-link-exact-active {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.nav-margin-top {
+  padding-top: 75px;
 }
 </style>

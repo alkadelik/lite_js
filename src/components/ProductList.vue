@@ -1,7 +1,7 @@
 <template>
   <div class="inventory" :class="{'active' : showProductInventory}">
     <div class="" v-for="product, i in inventory" :key="i">
-      <div class="product" @click="viewProductDetail(i)">
+      <div class="product" @click="viewProductDetail(product)">
         <div class="img-wrapper" v-b-modal.detail-product-modal>
           <img :src="'http://127.0.0.1:8000' + product.product_image" alt="">
           <!-- <img src="../assets/images/product-img-3.png" alt=""> --><!-- use this if no image -->
@@ -18,7 +18,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'vuex'
+import { SET_PRODUCT_TO_BE_EDITTED } from "@/store/mutationTypes";
 
 export default {
 	name: 'InventoryComponent',
@@ -26,8 +27,9 @@ export default {
 
 	},
   methods: {
-    viewProductDetail(index) {
-      console.log(index)
+    viewProductDetail(product) { // should this edit or view detail or do both?
+      this.$store.commit(SET_PRODUCT_TO_BE_EDITTED, product)
+      this.$router.push({name: 'product_details'})
     }
   },
 	computed: {
@@ -51,15 +53,21 @@ export default {
 }
 h3 {
   margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+  color: #445B54;
+}
+h3::first-letter {
+  text-transform: capitalize;
 }
 p {
   margin: 3px 0;
 }
 .product span {
   font-weight: 400;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 18px;
-  color: #9C9C9C;
+  color: #848282;
 
   width: 160px;
   /* white-space: ; */
@@ -73,14 +81,15 @@ p {
 }
 .inventory a {
   display: block;
-  text-decoration: underline;
+  text-decoration: underline !important;
   font-weight: 400;
   font-size: 14px;
   line-height: 28px;
-  color: #4CAF50;
+  color: #4CAF50 !important;
+  cursor: pointer;
 }
 .img-wrapper {
-  width: 162px;
+  width: 100%;
   height: 91px;
   border: 0.5px solid grey;
   border-radius: 8px;
@@ -89,7 +98,7 @@ p {
 .img-wrapper img {
   max-width: 100%;
 }
-a {
-  cursor: pointer;
+.content-wrapper {
+  margin-top: 5px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-	<div class="home">
+	<div class="container">
 		<Header pageTitle="Dashboard" :userProfile="true"></Header>
 		<section id="dashboard">
       <h3>{{ store.store_name }}</h3>
@@ -296,8 +296,8 @@ export default {
   text-align: left;
 }
 .report-wrapper {
-  background: #F4F4F4;
-  border: 0.5px solid #F4F4F4;
+  background: #F9F9F9;
+  border: 0.5px solid #F9F9F9;
   border-radius: 16px;
   padding: 14px 14px 24px;
   margin-bottom: 16px;

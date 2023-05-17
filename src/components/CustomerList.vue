@@ -32,9 +32,6 @@ import { mapGetters } from 'vuex';
 import { SAVE_SELECTED_CUSTOMER } from '@/store/mutationTypes'
 export default {
 	name: 'CustomerList',
-	prop: [
-		'displayNextBtn',
-	],
 	data: () => {
 		return {
 			customer_id: 0,
@@ -63,10 +60,14 @@ export default {
 	computed: {
 		...mapGetters({
 			customers: 'getCustomers',
+			position: 'getComponentSettings'
 		}),
 		customerCount() {
 			return this.customers.length
 		},
+		displayNextBtn() {
+			return this.position.display_next_button
+		}
 	},
 }
 </script>

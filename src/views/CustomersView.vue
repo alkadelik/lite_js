@@ -1,9 +1,9 @@
 <template>
-  <div class="customer">
+  <div class="container">
     <Header @add-button="addButton"></Header>
 
     <div id="orders">
-      <div class="container text-center">
+      <div class="text-center">
         <div class="empty" v-if="no_customer">
           <div class="">
             <img src="../assets/images/no-product-added-image.png" alt="">
@@ -13,9 +13,8 @@
             <a class="btn-style" @click="addCustomer">Add Customer</a>
           </div>
         </div>
-        <div v-else>
-          <Customers v-if="show_customer_list"></Customers>
-          <AddCustomer v-if="show_customer_form"></AddCustomer>
+        <div class="nav-margin-top">
+          <Customers></Customers>
         </div>
       </div>
     </div>
@@ -23,15 +22,14 @@
 </template>
 
 <script>
+import { SET_NEXT_BTN_DISPLAY } from '@/store/mutationTypes'
 import { mapGetters } from "vuex";
-import AddCustomer from "../components/CustomerAdd";
 import Customers from "../components/CustomerList";
 import Header from "../components/Header";
 
 export default {
   name: 'CustomersView',
   components: {
-    AddCustomer,
     Customers,
     Header,
   },
@@ -39,8 +37,6 @@ export default {
     return {
       showProductInventory: false,
       no_customer: true,
-      show_customer_form: false,
-      show_customer_list: true,
     }
   },
   methods:{
@@ -48,9 +44,7 @@ export default {
       this.addCustomer()
     },
     addCustomer() {
-      this.no_customer = false
-      this.show_customer_form = true
-      this.show_customer_list = false
+      this.$router.push({name: 'add_customer'})
     },
     manageOrders(){
       this.showProductInventory = false;
@@ -67,6 +61,7 @@ export default {
     if (this.has_customer == true) {
       this.no_customer = false
     }
+    this.$store.commit(SET_NEXT_BTN_DISPLAY, false)
   }
 }
 </script>

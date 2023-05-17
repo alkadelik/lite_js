@@ -1,6 +1,5 @@
 <template>
-  <div class="home">
-    <div id="sales">
+    <div id="sales" class="nav-margin-top">
       <div>
         <Products v-if="show_sales_inventory" @open-cart="openCart"></Products>
         <Cart v-if="show_cart" @select-customer="selectCustomer"></Cart>
@@ -28,10 +27,10 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
+import { SET_NEXT_BTN_DISPLAY } from '@/store/mutationTypes'
 import Cart from '@/components/Cart'
 import Checkout from '@/components/Checkout'
 import Customers from '@/components/CustomerList'
@@ -93,6 +92,9 @@ export default {
       // this.is_active = true
     }
   },
+  mounted() {
+    this.$store.commit(SET_NEXT_BTN_DISPLAY, true)
+  }
 }
 
   /* 

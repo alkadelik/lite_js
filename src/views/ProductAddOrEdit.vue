@@ -3,12 +3,9 @@
     <div>
       <div v-if="!product.id" id="add-product-modal"  ref="close-product-modal" title="BootstrapVue">
         <div class="product-body-wrapper">
-          <div class="product-header">
-            <h3 @click="$bvModal.hide('add-product-modal')" class="close-popup">Add Product</h3>
-          </div>
           <div class="product-body">
             <h2 class="black">Add product</h2>
-            <p class="dark">Set the hours you are available to receive <br> orders.</p>
+            <p class="dark">Enter product details.</p>
             <div class="form">
               <div class="form-group">
                 <p class="dark label">Uplaod Product image <span>(Optional)</span> </p>
@@ -89,7 +86,7 @@ export default {
   components: {
   },
   props: [
-    'product',
+    // 'product',
   ],
   data() {
     return {
@@ -139,7 +136,7 @@ export default {
   },
 	computed: {
 		...mapGetters({
-			has_product: 'getHasProduct', // this should not be needed because it is already in <Inventory /> using to check if user has product
+      product: 'getProductToBeEditted'
 		}),
 	},
 }

@@ -1,7 +1,4 @@
 <template>
-	<div class="product-header">
-		<h3 class="close-popup">Inventory</h3>
-	</div>
 	<div class="cart_item" v-for="item, i in cart" :key="i">
 		<div class="img_wrapper">
 			<img src="../assets/images/inventory-product-image-1.png" alt="">

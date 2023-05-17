@@ -21,7 +21,7 @@
                 <p>Inventory</p>
               </li>
             </router-link>
-            <router-link :to="{name: 'history'}" @click="saveNav(2)">
+            <router-link :to="{name: 'sales'}" @click="saveNav(2)">
               <li>
                 <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M13.7351 5.07819C13.7351 2.82577 11.9045 1.00004 9.64606 1.00004C7.38764 0.98966 5.54947 2.80783 5.53906 5.06025V5.07819" stroke="#AAB2BD" stroke-linecap="round" stroke-linejoin="round"/>
@@ -52,7 +52,7 @@
   </template>
   
 <script>
-import { SAVE_NAVIGATION } from '@/store/mutationTypes'
+import { SET_NAVIGATION } from '@/store/mutationTypes'
 export default {
 	name: 'NavigationMenu',
 	props: {
@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     saveNav(n) {
-      this.$store.commit(SAVE_NAVIGATION, n)
+      this.$store.commit(SET_NAVIGATION, n)
     }
   },
 
@@ -81,14 +81,14 @@ export default {
 </script>
   
 <style scoped>
-.menu {
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-  left: 0;
-  padding:10px;
+#headerMenu {
+  padding: 10px 0;
   background: #FFF;
   box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.04);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   z-index: 1000;
 }
 ul {
@@ -103,6 +103,11 @@ ul {
 li {
   width: 80px;
   transition: all 0.5s ease;
+}
+a {
+  color: #007bff;
+  text-decoration: none;
+  background-color: transparent;
 }
 p {
   margin: 0;

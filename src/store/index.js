@@ -28,6 +28,7 @@ export default createStore({
       display_navigation: null,
       display_next_button: null,
       display_add_button: null,
+      page_title: '',
     },
     email_verified: false,
     filter_option: 'Customer name',
@@ -42,7 +43,7 @@ export default createStore({
     store: {},
     store_slug: "",
     orders: [],
-    to_be_editted: null,
+    to_be_editted: {},
     unregistered_email: "",
     unsaved_change: false,
     visitor_inventory: {},
@@ -71,8 +72,14 @@ export default createStore({
     [mutationTypes.SAVE_NEW_CUSTOMER](state, data) {
       state.customers.push(data);
     },
-    [mutationTypes.SAVE_NAVIGATION](state, data) {
+    [mutationTypes.SET_ADD_BTN_DISPLAY](state, data) {
+      state.component_settings.display_add_button = data;
+    },
+    [mutationTypes.SET_NAVIGATION](state, data) {
       state.component_settings.display_header = data;
+    },
+    [mutationTypes.SET_NEXT_BTN_DISPLAY](state, data) {
+      state.component_settings.display_next_button = data;
     },
     [mutationTypes.SAVE_SELECTED_CUSTOMER](state, data) {
       state.checkout_customer = data;
