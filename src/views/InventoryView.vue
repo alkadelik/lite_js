@@ -15,9 +15,9 @@
       </div>
     </section>
     <div v-else>
-      <ProductList></ProductList>
-      <AddOrEdit></AddOrEdit>
-      <ProductDetails></ProductDetails>
+      <ProductList v-if="show_products"></ProductList>
+      <AddOrEdit v-if="add_product" :product="product"></AddOrEdit>
+      <ProductDetails v-if="show_details" :product="product"></ProductDetails>
     </div>
   </div>
 </template>
@@ -39,38 +39,26 @@ export default {
   },
   data() {
     return {
+      add_product: false,
       no_product: true,
+      product: {},
+      show_products: true,
     }
   },
   methods:{
     addButton() {
       this.addProduct()
     },
-    previewImage: function (event) {
-      // Reference to the DOM input element
-      var input = event.target;
-      console.log("hello")
-      // Ensure that you have a file before attempting to read it
-      if (input.files && input.files[0]) {
-        // create a new FileReader to read this image and convert to base64 format
-        var reader = new FileReader();
-        // Define a callback function to run, when FileReader finishes its job
-        reader.onload = (e) => {
-          // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
-          // Read image as base64 and set to imageData
-          this.imageData = e.target.result;
-        };
-        // Start the reader job - read file as a data url (base64 format)
-        reader.readAsDataURL(input.files[0]);
-      }
+    addProduct(product){
+      product ? this.product = product : this.product = {}
+      this.no_product = false
+      this.show_products = false
+      this.add_product = true
     },
-    addProduct(){
-      this.has_product = false
-      this.showProductInventory = true;
-      this.noProduct = true;
-    },
-    setRating: function(rating) {
-      this.rating = rating;
+    showDetails(product) {
+      this.product = product
+      this.show_products = false
+      this.view_details = true
     }
   },
 	computed: {
@@ -80,9 +68,6 @@ export default {
 	},
   mounted() {
     this.has_product == true ? this.no_product = false : ''
-    // if (this.has_sale == true) {
-    //   this.no_sale = false
-    // }
   }
 }
 </script>

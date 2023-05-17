@@ -5,7 +5,7 @@
 				<h3 @click="$bvModal.hide('add-new-customer-modal')" class="close-popup">Add Customer</h3>
 			</div>
 			<div class="product-body">
-				<h2 class="black">Add Customer</h2>
+				<h2 class="black">Enter customer details</h2>
 				<div class="form">
 					<div class="row">
 						<div class="col-6">
@@ -179,7 +179,10 @@ export default {
 			// give success/failed feedback
 			// stay on if merchant wants to add another customer
 		}
-	}
+	},
+	mounted() {
+    this.emitter.emit('hideHeader', false)
+  }
 }
 </script>
 

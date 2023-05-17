@@ -361,9 +361,6 @@ p {
 .dashboard-chart-header p, h3 {
   margin: 0;
 }
-.dashboard-chart-header span {
-  /* margin-bottom: 100px; */
-}
 .space {
   margin-bottom: 50px;
 }

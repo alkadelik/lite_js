@@ -1,5 +1,5 @@
 <template>
-    <div class="menu">
+    <div class="menu" v-if="!hide_menu">
       <section id="headerMenu">
         <div class="container">
           <ul class="menu">
@@ -58,11 +58,28 @@ export default {
 	props: {
 		msg: String
 	},
+  data:() => {
+    return {
+      hide_menu: false,
+    }
+  },
   methods: {
     saveNav(n) {
       this.$store.commit(SAVE_NAVIGATION, n)
     }
+  },
+  mounted() {
+    this.emitter.on('hideMenu', (state) => this.hide_menu = state)
   }
+
+  /* 
+  DOCUMENTATION
+  Computed:
+  the switch case controls the display of the menu across the app. 
+  The menu is in App.vue so is displayed everywhere. Any view or component it is not required emits an indicator
+  to display or not.
+
+  */
 }
 </script>
   

@@ -1,11 +1,9 @@
 <template>
 	<div id="select-customer-modal" title="BootstrapVue">
 		<div class="select-customer-body-wrapper">
-			<div class="product-header">
-				<h3 lass="close-popup">Select Customer</h3>
-			</div>
 			<div class="product-body">
 				<p class="all-product p">All Customers ({{ customerCount }})</p>
+				<button v-if="displayNextBtn == true">show</button>
 				<div class="search-products form">
 					<input type="search" class="form-control" placeholder="Type customer name to search">
 					<label for="searchCustomer"><img src="../assets/images/icons/search-icon.svg" alt=""></label>
@@ -23,7 +21,7 @@
 						</div>
 					</div>
 				</div>
-				<a class="btn-style float-btn-style" @click="checkout">Next</a><!-- show only if in cart-->
+				<a class="btn-style float-btn-style" @click="checkout" v-if="displayNextBtn">Next</a><!-- show only if in cart-->
 			</div>
 		</div>
 	</div>
@@ -34,6 +32,9 @@ import { mapGetters } from 'vuex';
 import { SAVE_SELECTED_CUSTOMER } from '@/store/mutationTypes'
 export default {
 	name: 'CustomerList',
+	prop: [
+		'displayNextBtn',
+	],
 	data: () => {
 		return {
 			customer_id: 0,
@@ -65,8 +66,8 @@ export default {
 		}),
 		customerCount() {
 			return this.customers.length
-		}
-	}
+		},
+	},
 }
 </script>
 

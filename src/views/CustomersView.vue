@@ -14,7 +14,7 @@
           </div>
         </div>
         <div v-else>
-          <Customers v-if="show_customer_list"></Customers>
+          <Customers v-if="show_customer_list" :displayNextBtn="hideNextBtnInCustomerList"></Customers>
           <AddCustomer v-if="show_customer_form"></AddCustomer>
         </div>
       </div>
@@ -61,7 +61,10 @@ export default {
   computed: {
     ...mapGetters({
       has_customer: 'getHasCustomer',
-    })
+    }),
+    hideNextBtnInCustomerList() {
+      return true
+    }
   },
   mounted() {
     if (this.has_customer == true) {

@@ -4,7 +4,7 @@
       <div>
         <Products v-if="show_sales_inventory" @open-cart="openCart"></Products>
         <Cart v-if="show_cart" @select-customer="selectCustomer"></Cart>
-        <Customers v-if="show_customers" @checkout="checkout"></Customers>
+        <Customers v-if="show_customers" @checkout="checkout" :displayNextBtn="hideNextBtnInCustomerList"></Customers>
         <Checkout v-if="show_checkout"></Checkout>
 
 
@@ -45,54 +45,59 @@ import Products from '@/components/ProductShopFloor'
 // create order
 // create order items
 export default {
-name: 'SalesView',
-components: {
-  Cart,
-  Checkout,
-  Customers,
-  Products,
-},
-data() {
-  return {
-    // is_active: false,
-    vegan: false,
-    show_cart: false,
-    show_checkout: false,
-    show_customers: false,
-    show_sales_inventory: true,
+  name: 'SalesView',
+  components: {
+    Cart,
+    Checkout,
+    Customers,
+    Products,
+  },
+  data() {
+    return {
+      // is_active: false,
+      vegan: false,
+      show_cart: false,
+      show_checkout: false,
+      show_customers: false,
+      show_sales_inventory: true,
+    }
+  },
+  methods:{
+    addButton() {
+      this.showInventory()
+    },
+    checkout() {
+      this.show_customers = false
+      this.show_checkout = true
+    },
+    closeAllModals(){
+      this.$bvModal.hide('add-customer-modal')
+      this.$bvModal.hide('sale-inventory-modal')
+      this.$bvModal.hide('add-sale-modal')
+      this.$bvModal.hide('edit-price-modal')
+      this.$bvModal.hide('add-customer-modal')
+      this.show_sales_inventory = true;
+      this.noProduct = true;
+    },
+    
+    openCart() {
+      this.show_sales_inventory = false
+      this.show_cart = true
+    },
+    selectCustomer() {
+      this.show_cart = false
+      this.show_customers = true
+    },
+    showInventory() {
+      this.show_sales_inventory = true
+      // this.is_active = true
+    }
+  },
+  computed: {
+    hideNextBtnInCustomerList() {
+      return false
+    }
   }
-},
-methods:{
-  addButton() {
-    this.showInventory()
-  },
-  checkout() {
-    this.show_customers = false
-    this.show_checkout = true
-  },
-  closeAllModals(){
-    this.$bvModal.hide('add-customer-modal')
-    this.$bvModal.hide('sale-inventory-modal')
-    this.$bvModal.hide('add-sale-modal')
-    this.$bvModal.hide('edit-price-modal')
-    this.$bvModal.hide('add-customer-modal')
-    this.show_sales_inventory = true;
-    this.noProduct = true;
-  },
-  
-  openCart() {
-    this.show_sales_inventory = false
-    this.show_cart = true
-  },
-  selectCustomer() {
-    this.show_cart = false
-    this.show_customers = true
-  },
-  showInventory() {
-    this.show_sales_inventory = true
-    // this.is_active = true
-  }
-}
 }
 
   /* 

@@ -1,8 +1,7 @@
 <template>
   <div class="container">
-    <Header @add-button="addButton"></Header>
     <div>
-      <div v-if="view" id="add-product-modal"  ref="close-product-modal" title="BootstrapVue">
+      <div v-if="!product.id" id="add-product-modal"  ref="close-product-modal" title="BootstrapVue">
         <div class="product-body-wrapper">
           <div class="product-header">
             <h3 @click="$bvModal.hide('add-product-modal')" class="close-popup">Add Product</h3>
@@ -84,19 +83,14 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Header from "../components/Header";
-// import StarRating from 'vue-star-rating'
-
-// Vue.component('star-rating', StarRating)
-
-
+import { mapGetters } from "vuex"
 export default {
   name: 'AddOrEditProduct',
   components: {
-    Header,
-    // StarRating
   },
+  props: [
+    'product',
+  ],
   data() {
     return {
       imageData: "", // we will store base64 format of image in this string
@@ -148,9 +142,37 @@ export default {
 			has_product: 'getHasProduct', // this should not be needed because it is already in <Inventory /> using to check if user has product
 		}),
 	},
+  mounted() {
+    // this.emitter.emit('hideMenu', true)
+  }
 }
 </script>
 
 <style scoped>
-
+.form {
+  text-align: left;
+}
+.form label.uploadProductImage {
+  background: #FDFDFD;
+  border: 0.5px dashed rgba(20, 62, 50, 0.25);
+  border-radius: 8px;
+  padding: 35px 50px;
+  width: 100%;
+  display: block;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  line-height: 19px !important;
+  color: #69747E;
+  text-align: center;
+}
+.form input[type="file"] {
+  display: none;
+}
+p, .p {
+  /* font-weight: 400 !important;
+  font-size: 14px !important;
+  line-height: 18px !important; */
+  /* font-family: "Graphik"; */
+  color: #9C9C9C;
+}
 </style>

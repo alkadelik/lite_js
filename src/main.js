@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios'
+import mitt from 'mitt'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
@@ -12,7 +13,10 @@ if (token) {
   axios.defaults.headers.common["Authorization"] = `Token ${token}`;
 }
 
-// app.config.globalProperties.emitter = emitter
+const emitter = mitt()
+const app = createApp(App)
+app.config.globalProperties.emitter = emitter
+
 
 // from fiver contract
     // import '@babel/polyfill'
@@ -35,7 +39,4 @@ if (token) {
     // Vue.config.productionTip = false
 // end fiver contract
 
-
-
-
-createApp(App).use(store).use(router).mount('#app')
+app.use(store).use(router).mount('#app')

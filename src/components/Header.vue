@@ -123,7 +123,10 @@ export default {
       case 3:
         this.show_add_button=true
     }
-  }}
+
+    this.emitter.on('hideHeader', (state) => this.show_add_button = state)
+  }
+}
 
   /* 
   DOCUMENTATION

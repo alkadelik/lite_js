@@ -53,8 +53,6 @@ export default {
 			inventory: 'getInventory',
 		})
 	},
-	mounted() {
-	}
 }
 </script>
 
@@ -80,7 +78,7 @@ label {
 }
 label::before {
   content: "";
-  -webkit-appearance: none;
+  /* -webkit-appearance: none; */
   background-color: transparent;
   border: 2px solid #171717;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
@@ -120,9 +118,6 @@ input:checked + label::after {
   padding: 18px;
   min-height: 143px;
   margin-bottom: 3px;
-}
-.form .form-group .sale-inventory-card .img-wrapper {
-  /* text-align: center; */
 }
 .sale-inventory-card .img-wrapper img {
   display: block;
