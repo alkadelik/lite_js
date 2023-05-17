@@ -1,27 +1,21 @@
 <template>
-	<b-modal id="sale-inventory-modal"  ref="close-product-modal" title="BootstrapVue">
-		<div class="sale-inventory-body-wrapper">
-			<div class="product-body">
-				<div class="sale-inventory-wrapper">
-					<div class="form products">
-						<div class="form-group product" v-for="product, i in inventory" :key="i" @click="toggleProductInCart(product.id)">
-							<input type="checkbox" :id="'product' + i">
-							<label :for="'product' + i">
-								<div class="sale-inventory-card">
-									<div class="img-wrapper">
-										<!-- <img :src="'http://127.0.0.1:8000' + product.product_image" alt="product image"> -->
-										<img src="../assets/images/inventory-product-image-1.png" alt="">
-										<span class="product-name">{{ product.product_name }}</span>
-									</div>
-								</div>
-							</label>
-						</div>
-					</div>
-					<a class="btn-style float-btn-style" @click="goToCart">Next</a>
-				</div>
-			</div>
-		</div>
-	</b-modal>
+  <div class="sale-inventory-wrapper">
+    <div class="form products">
+      <div class="form-group product" v-for="product, i in inventory" :key="i" @click="toggleProductInCart(product.id)">
+        <input type="checkbox" :id="'product' + i">
+        <label :for="'product' + i">
+          <div class="sale-inventory-card">
+            <div class="img-wrapper">
+              <img :src="'http://127.0.0.1:8000' + product.product_image" alt="product image">
+              <!-- <img src="../assets/images/inventory-product-image-1.png" alt=""> -->
+            </div>
+            <p class="product-name">{{ product.product_name }}</p>
+          </div>
+        </label>
+      </div>
+    </div>
+    <a class="btn-style float-btn-style" @click="goToCart">Next</a>
+  </div>
 </template>
 
 <script>
@@ -119,6 +113,11 @@ input:checked + label::after {
   min-height: 143px;
   margin-bottom: 3px;
 }
+.img-wrapper {
+  border-radius: 8px;
+  overflow: hidden;
+  height: 80px;
+}
 .sale-inventory-card .img-wrapper img {
   display: block;
   max-width: 80px;
@@ -130,8 +129,7 @@ input:checked + label::after {
 img {
   border-style: none;
 }
-.product .sale-inventory-card .img-wrapper span.product-name {
-  display: block;
+.sale-inventory-card p {
   background: rgba(255, 255, 255, 0.5);
   -webkit-backdrop-filter: blur(304px);
   backdrop-filter: blur(304px);
@@ -139,13 +137,8 @@ img {
   min-width: 90px;
   padding: 8px 5px;
   margin-top: 10px;
-  text-align: center;
   color: #111827;
-}
-span {
-  font-weight: 400;
+  margin: 5px 0;
   font-size: 12px;
-  line-height: 18px;
-  color: #9C9C9C;
 }
 </style>

@@ -1,7 +1,8 @@
 <template>
 	<div class="cart_item" v-for="item, i in cart" :key="i">
 		<div class="img_wrapper">
-			<img src="../assets/images/inventory-product-image-1.png" alt="">
+			<!-- <img src="../assets/images/inventory-product-image-1.png" alt=""> -->
+			<img :src="'http://127.0.0.1:8000' + item.product_image" alt="product image">
 		</div>
 		<div class="item_details">
 			<p class="name">{{ item.product_name }}</p>
@@ -94,13 +95,20 @@ export default {
 	margin-bottom: 11px;
 }
 .img_wrapper {
-	background-color: pink;
+	/* display: flex; */
+	/* align-items: center; */
+	/* justify-content: center; */
+	height: 111px;
+	/* border-radius: 20px; */
 
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	min-height: 111px;
-	border-radius: 20px;
+	/* width: 100%; */
+  /* height: 91px; */
+  border: 0.5px solid grey;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.img_wrapper img {
+	width: 100%;
 }
 .item_details {
 	text-align: left;

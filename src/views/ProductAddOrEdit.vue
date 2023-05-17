@@ -2,16 +2,13 @@
   <div class="container">
     <div>
       <div v-if="!product.id" id="add-product-modal"  ref="close-product-modal" title="BootstrapVue">
-        <div class="product-body-wrapper">
+        <div class="product-body-wrapper nav-margin-top">
           <div class="product-body">
-            <h2 class="black">Add product</h2>
-            <p class="dark">Enter product details.</p>
             <div class="form">
               <div class="form-group">
                 <p class="dark label">Uplaod Product image <span>(Optional)</span> </p>
                 <input type="file" id="uploadProductImage" @change="previewImage" accept="image/*">
-                <label for="uploadProductImage" class="uploadProductImage">Drop image or <br>
-                  click to upload</label>
+                <label for="uploadProductImage" class="uploadProductImage"> Tap here to select product image</label>
                 <div class="image-preview" v-if="imageData.length > 0">
                   <img class="preview" :src="imageData" alt="preview">
                 </div>
@@ -30,7 +27,7 @@
                 <textarea id="product-description" class="form-control"></textarea>
               </div>
               <div class="form-group">
-                <input type="submit" value="Add Product" class="btn-style" @click="addProduct">
+                <button class="btn-style float-btn-style" @click="createProduct">Add Product</button>
               </div>
             </div>
           </div>
@@ -39,37 +36,32 @@
       <div v-else id="edit-product-modal"  ref="close-product-modal" title="BootstrapVue">
         <div class="product-body-wrapper">
           <div class="product-header">
-            <h3 @click="$bvModal.hide('edit-product-modal')" class="close-popup">Edit Product</h3>
+            <h3 @click="$bvModal.hide('edit-product-modal')" class="close-popup">Edit {{ product.product_name }}</h3>
           </div>
           <div class="product-body">
-            <h2 class="black">Edit product</h2>
-            <p class="dark">Set the hours you are available to receive <br> orders.</p>
             <div class="form">
               <div class="form-group">
-                <p class="dark label">Uplaod Product image <span>(Optional)</span> </p>
+                <p class="dark label">Edit Product image</p>
                 <input type="file" id="editUploadProductImage" @change="previewImage" accept="image/*">
-                <label for="editUploadProductImage" class="uploadProductImage">Drop image or <br>
-                  click to upload</label>
+                <label for="editUploadProductImage" class="uploadProductImage">Tap here to change produt image</label>
                 <div class="image-preview" v-if="imageData.length > 0">
                   <img class="preview" :src="imageData" alt="preview">
                 </div>
               </div>
               <div class="form-group">
                 <label for="edit-product-name">Product Name</label>
-                <input type="text" id="edit-product-name" class="form-control" value="Gaiai Dress, XL">
-                <span>give your product a short and clear name</span>
+                <input type="text" id="edit-product-name" class="form-control" v-model="product_edit.product_name">
               </div>
               <div class="form-group">
                 <label for="edit-product-price">Product Price</label>
-                <input type="text" id="edit-product-price" value="N95,620.99" class="form-control">
+                <input type="text" id="edit-product-price" v-model="product_edit.price" class="form-control">
               </div>
               <div class="form-group">
                 <label for="product-description">Product Description <span>(Optional)</span></label>
-                <textarea id="product-description" class="form-control">Lorem Ipsum is simply dummy text of the printing
-                  and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</textarea>
+                <textarea id="product-description" class="form-control" v-model="product_edit.description"></textarea>
               </div>
               <div class="form-group">
-                <input type="submit" value="Add Product" class="btn-style" @click="$bvModal.hide('edit-product-modal')">
+                <button class="btn-style float-btn-style" @click="editProduct">Save edits</button>
               </div>
             </div>
           </div>
@@ -85,28 +77,17 @@ export default {
   name: 'AddOrEditProduct',
   components: {
   },
-  props: [
-    // 'product',
-  ],
   data() {
     return {
       imageData: "", // we will store base64 format of image in this string
-      showProductInventory: false,
-      noProduct: false,
-      activeTab: '1',
-      rating: 3.8,
-      max: 50,
-      fiveStarValue: 75,
-      fourStarValue: 16,
-      threeStarValue: 5,
-      twoStarValue: 5,
-      oneStarValue: 1,
+      product_edit: {
+        product_name: '',
+        price: '',
+        description: '',
+      }
     }
   },
   methods:{
-    addButton() {
-      this.addProduct()
-    },
     previewImage: function (event) {
       // Reference to the DOM input element
       var input = event.target;
@@ -125,13 +106,11 @@ export default {
         reader.readAsDataURL(input.files[0]);
       }
     },
-    addProduct(){
+    createProduct(){
       console.log('clicked')
-      this.showProductInventory = true;
-      this.noProduct = true;
     },
-    setRating: function(rating) {
-      this.rating = rating;
+    editProduct() {
+
     }
   },
 	computed: {
@@ -139,12 +118,30 @@ export default {
       product: 'getProductToBeEditted'
 		}),
 	},
+  mounted() {
+    this.product_edit.product_name = this.product.product_name
+    this.product_edit.price = this.product.price
+    this.product_edit.description = this.product.description
+  }
 }
 </script>
 
 <style scoped>
+.image-preview {
+  width: 330px;
+}
+img {
+  width: 100%;
+}
 .form {
   text-align: left;
+}
+.form-group {
+  margin-bottom: 24px;
+}
+.form label {
+  color: #0C3E26;
+  margin-bottom: 8px;
 }
 .form label.uploadProductImage {
   background: #FDFDFD;
@@ -152,10 +149,6 @@ export default {
   border-radius: 8px;
   padding: 35px 50px;
   width: 100%;
-  display: block;
-  font-size: 12px !important;
-  font-weight: 400 !important;
-  line-height: 19px !important;
   color: #69747E;
   text-align: center;
 }
@@ -163,10 +156,6 @@ export default {
   display: none;
 }
 p, .p {
-  /* font-weight: 400 !important;
-  font-size: 14px !important;
-  line-height: 18px !important; */
-  /* font-family: "Graphik"; */
   color: #9C9C9C;
 }
 </style>

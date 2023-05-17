@@ -1,24 +1,23 @@
 <template>
-	<div class="accordion" id="accordionPanelsStayOpenExample">
+	<div class="accordion">
 		<div class="accordion-item">
 			<h2 class="accordion-header">
-				<button class="accordion-button" type="button" data-bs-toggle="collapse" :data-bs-target="'#panel' + index" aria-expanded="true" :aria-controls="'panel' + index" @click="getOrderItems">
+				<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#panel' + index" aria-expanded="false" :aria-controls="'panel' + index" @click="getOrderItems">
 					<div class="order-details">
 						<div class="">
-							<div>
-								<p>{{ customer.first_name }} <span class="call">Call</span></p>
+							<div class="order-customer">
+								<h3>{{ customer.first_name }} <span class="call">Call</span></h3>
 							</div>
 							<p>&#8358;{{ order.products_total }}</p>
 						</div>
 						<div class="date">
-							<p class="">
-								<span>#{{ order.order_ref }}</span>
-								<span>{{ order_date }}</span><sup>{{ ordinal_suffix }}</sup>
-								<span> {{ order_date == 'Today' || order_date == 'Yesterday' ? '' :parseInt(order.created.substring(0, 4)) }}</span>
-							</p>
+							<div>
+							#<p class="ellipses">{{ order.order_ref }}</p>&#x2022;
+								<p style="margin-left: 5px;">{{ order_date }} {{ ordinal_suffix }} {{ order_date == 'Today' || order_date == 'Yesterday' ? '' :parseInt(order.created.substring(0, 4)) }}</p>
+							</div>
 							<p>{{ order.fulfilled }}/{{ order.items_count }}</p>
 						</div>
-						<div class="">
+						<div id="fulfillment">
 							<p>
 								{{ order.unique_items }} items
 								<!-- {{ order.unique_items > 1 ? `& ${order.unique_items - 1} other items` : "" }} -->
@@ -28,7 +27,7 @@
 					</div>
 				</button>
 			</h2>
-			<div :id="'panel' + index" class="accordion-collapse collapse show order-items">
+			<div :id="'panel' + index" class="accordion-collapse collapse order-items">
 				<div class="item-header">
 					<p class="p">Products</p>
 					<a href="#"><span>Check all</span></a>
@@ -36,13 +35,13 @@
 
 				<OrderItems v-for="item, i in order_items" :key="i" :item="item"></OrderItems>
 
-				<div class="customer-accordion" id="accordionPanelsStayOpenExample">
+				<div class="customer-accordion">
 					<h2 class="accordion-header">
-						<button class="accordion-button" type="button" data-bs-toggle="collapse" :data-bs-target="'#customer' + index" aria-expanded="true" :aria-controls="'customer' + index">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#customer' + index" aria-expanded="false" :aria-controls="'customer' + index">
 							Customer details
 						</button>
 					</h2>
-					<div :id="'customer' + index" class="accordion-collapse collapse show">
+					<div :id="'customer' + index" class="accordion-collapse collapse">
 						<ul class="customer-details">
 							<li>
 								<img src="../assets/images/icons/customer-name-icon.svg" alt="">
@@ -185,9 +184,30 @@ export default {
 	display: flex;
 	flex-direction: column;
 }
+/* .order-details div { */
 .order-details div {
 	display: flex;
-	justify-content: space-between;
+	justify-content: flex-start;
+	width: 300px;
+	color: #445B54;
+}
+h3 {
+	margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+.ellipses {
+	display: inline-block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 70px;
+	direction: rtl;
+	text-align: left;
+	margin-right: 5px;
+}
+.date p {
+	margin-bottom: 10px;
 }
 .date ul {
 	padding: 0;
@@ -204,6 +224,8 @@ export default {
 	justify-content: space-between;
 }
 .call {
+	font-size: 18px;
+	font-weight: lighter;
 	color: #4CAF50;
 	padding: 2px 10px;
 	background: #F4FFF4;
@@ -231,8 +253,23 @@ export default {
 	border-radius: 8px;
 	border: none;
 }
+#fulfillment p {
+	margin: 0;
+}
+#fulfillment {
+	display: flex;
+	justify-content: space-between;
+}
+.accordion-button {
+	padding: 15px;
+}
 .accordion-button:not(.collapsed) {
 	background-color: none;
+	color: #445B54;
+}
+.accordion-button:not(.collapsed)::after, .accordion-button::after {
+  /* background-image: var(--bs-accordion-btn-active-icon); */
+	background-image: none;
 }
 .accordion-header {
   /* background-color: none; */
@@ -243,5 +280,6 @@ export default {
 }
 .accordion {
 	margin-bottom: 15px;
+	--bs-accordion-active-bg: none;
 }
 </style>

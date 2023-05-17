@@ -80,7 +80,6 @@ nav a.router-link-exact-active {
   background: #4CAF50;
   vertical-align: middle;
   min-width: 161px;
-  font-family: "Graphik";
   text-decoration: none;
 }
 .btn-style {
