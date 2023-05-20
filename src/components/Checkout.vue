@@ -1,36 +1,54 @@
 <template>
-	<div>
-		Checkout summary (please confirm that everyting is correct - modal)
-    <input v-model="shipping" placeholder="Enter shipping cost">
-		<a class="btn-style float-btn-style" @click="saveOrderHandler">Save sale</a><!-- show only if in cart-->
-	</div>
+  <div class="container">
+    <div class="form">
+      <div class="form-group">
+        <label for="your-email">Enter deliver fee if any</label>
+        <input  v-model="shipping" class="form-control">
+      </div>
 
-	<div v-if="vegan" id="sales-added-modal" centered title="BootstrapVue">
-		<div class="sales-added-body-wrapper">
-			<div class="product-body">
-				<img src="../assets/images/icons/sales-added-check-icon.svg" alt="">
-				<h2 class="black">Sales Added</h2>
-				<p class="dark">A link has been sent to customer_name <br>
-					to give feedback.</p>
-			</div>
-		</div>
-	</div>
+      <div v-if="vegan" id="sales-added-modal" centered title="BootstrapVue">
+        <div class="sales-added-body-wrapper">
+          <div class="product-body">
+            <img src="../assets/images/icons/sales-added-check-icon.svg" alt="">
+            <h2 class="black">Sales Added</h2>
+            <p class="dark">A link has been sent to customer_name <br>
+              to give feedback.</p>
+          </div>
+        </div>
+      </div>
 
-	<div v-if="vegan" id="deliver-fulfilled-modal" centered title="BootstrapVue">
-		<div class="deliver-fulfilled-body-wrapper">
-			<div class="product-body">
-				<img src="../assets/images/icons/sales-added-check-icon.svg" alt="">
-				<h2 class="black">Delivery</h2>
-				<p class="dark">Have all products been <br> Fulfilled?</p>
-				<a href="#" class="btn-style" @click="$bvModal.hide('deliver-fulfilled-modal')">Cancel</a>
-				<a href="#" class="btn-style" @click="$bvModal.hide('deliver-fulfilled-modal')">Yes</a>
-			</div>
-		</div>
-	</div>
+      <div class="payment-status">
+        <p class="dark label">Has this order been pad for?</p>
+        <div class="form-group">
+          <input id="paid" name="payment-status" type="radio" value="1" @change="paymentStatus($event)">
+          <label for="paid" class="radio-label">Yes</label>
+        </div>
+        <div class="form-group">
+          <input id="not-paid" name="payment-status" type="radio" value="0" @change="paymentStatus($event)">
+          <label for="not-paid" class="radio-label">No</label>
+        </div>
+      </div>
+      <div class="delivery-status">
+        <p class="dark label">Has this order been fulfilled?</p>
+        <div class="form-group">
+          <input id="delivered" name="delivery-status" type="radio" value="1" @change="fulfillmentStatus($event)">
+          <label for="delivered" class="radio-label">Fulfilled</label>
+          <span>A receipt and feedback request will be emailed to the customer</span>
+        </div>
+        <div class="form-group">
+          <input id="not-delivered" name="delivery-status" type="radio" value="0" @change="fulfillmentStatus($event)">
+          <label for="not-delivered" class="radio-label">Not fulfilled</label>
+          <span>Only a receipt will be emailed to the customer</span>
+        </div>
+      </div>
+    </div>
+    <a class="btn-style float-btn-style" @click="saveOrderHandler">Save</a>
+  </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import { SET_NAVIGATION } from '@/store/mutationTypes'
 
 import {
 	saveOrder,
@@ -44,6 +62,8 @@ export default {
 			has_customer: false,
 			orderID: '',
       shipping: 0,
+      fulfilled: null,
+      payment_status: null,
 		}
 	},
 	methods: {
@@ -94,6 +114,12 @@ export default {
       this.orderID =
         ref_type + store_id + month + day + cart_count + year + rand_int;
     },
+    fulfillmentStatus(e) {
+       this.fulfilled = e.target.value
+    },
+    paymentStatus(e) {
+      this.payment_status = e.target.value
+    },
 		saveOrderHandler() {
 			this.createOrderID()
 
@@ -107,6 +133,8 @@ export default {
         shipping: this.shipping,
 				has_customer: this.has_customer,
         customer_id: this.customer_id,
+        fulfilled: this.fulfilled,
+        payment_status: this.payment_status,
 
         // email: this.customerInfo.email,
         // address: this.customerInfo.address,
@@ -120,11 +148,11 @@ export default {
         .then(() => {
           saveOrderItems(this.orderItems)
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log(err)
         })
         .finally(() => {
-          // give success message
-          // redirect to sales // show orders
+          console.log('done')
         })
 		},
 	},
@@ -159,6 +187,36 @@ export default {
 	},
 	mounted() {
 		this.customer_id != 0 ? this.has_customer = true : ''
-	}
+    this.$store.commit(SET_NAVIGATION, 22)
+  }
 }
 </script>
+
+<style scoped>
+.form {
+  text-align: left;
+}
+.delivery-status, .payment-status {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+  background: #F5F5F5;
+  border: 0.5px solid #F3F3F3;
+  border-radius: 8px;
+  /* text-align: left; */
+  margin-bottom: 25px;
+}
+.form-group:first-of-type {
+  margin-bottom: 20px;
+}
+.form-group label {
+  color: #0C3E26;
+  font-weight: bold;
+  margin-left: 11px;
+}
+.form-group span {
+  display: block;
+  margin-left: 25px;
+  color: #626C7A;
+}
+</style>

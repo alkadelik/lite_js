@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <Header pageTitle="Sales" :addProduct="true" @add-button="addButton"></Header>
-    <!-- :isActive="is_active" -->
     <div v-if="no_sale" class="empty">
       <div class="">
         <img src="../assets/images/no-product-added-image.png" alt="">
@@ -21,8 +20,6 @@ import { mapGetters } from 'vuex'
 import Header from "../components/Header";
 import Orders from '@/components/Orders'
 
-// Vue.component('star-rating', StarRating)
-
 export default {
 name: 'HistoryView',
 components: {
@@ -31,13 +28,12 @@ components: {
 },
 data() {
   return {
-    // is_active: false,
     no_sale: true,
   }
 },
 methods:{
   addButton() {
-    this.$router.push({name: 'add_sale'})
+    this.$router.push({name: 'add_sale', params: {origin: '_'}})
   },
 },
 computed: {

@@ -1,30 +1,12 @@
 <template>
+    <Header @add-button="addButton"><h3 @click="back" class="close-popup">Add Product</h3></Header>
     <div id="sales" class="nav-margin-top">
       <div>
+        <!-- when trying to add sale but the merchant doesn't have any products, it should tell the user -->
         <Products v-if="show_sales_inventory" @open-cart="openCart"></Products>
         <Cart v-if="show_cart" @select-customer="selectCustomer"></Cart>
-        <Customers v-if="show_customers" @checkout="checkout"></Customers>
-        <Checkout v-if="show_checkout"></Checkout>
-
-
-        <div v-if="vegan" id="edit-price-modal" centered title="BootstrapVue"><!-- change price when adding sales if different -->
-          <div class="edit-price-body-wrapper">
-            <div class="product-body">
-              <h2 class="black">Hi,champ</h2>
-              <p class="dark">We understand price changes to have an accurate sales record Input the actual
-                amount you sold the product.</p>
-              <div class="form">
-                <div class="form-group">
-                  <label for="edit-price">Enter amount sold</label> <br>
-                  <input type="text" class="form-control" id="edit-price">
-                </div>
-                <div class="form-group">
-                  <input type="submit" class="btn-style" value="Change Price">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Customers v-if="show_customers" @checkout="checkout" :origin="'sales'"></Customers>
+        <Checkout v-if="show_checkout"/>
       </div>
     </div>
 </template>
@@ -35,8 +17,7 @@ import Cart from '@/components/Cart'
 import Checkout from '@/components/Checkout'
 import Customers from '@/components/CustomerList'
 import Products from '@/components/ProductShopFloor'
-
-// Vue.component('star-rating', StarRating)
+import Header from "../components/Header"
 
 // select items (no variants)
 // increase / decrease / delete item in cart
@@ -49,14 +30,14 @@ export default {
     Cart,
     Checkout,
     Customers,
+    Header,
     Products,
   },
   data() {
     return {
-      // is_active: false,
-      vegan: false,
       show_cart: false,
       show_checkout: false,
+      show_checkouttoo: false,
       show_customers: false,
       show_sales_inventory: true,
     }
@@ -69,16 +50,6 @@ export default {
       this.show_customers = false
       this.show_checkout = true
     },
-    closeAllModals(){
-      this.$bvModal.hide('add-customer-modal')
-      this.$bvModal.hide('sale-inventory-modal')
-      this.$bvModal.hide('add-sale-modal')
-      this.$bvModal.hide('edit-price-modal')
-      this.$bvModal.hide('add-customer-modal')
-      this.show_sales_inventory = true;
-      this.noProduct = true;
-    },
-    
     openCart() {
       this.show_sales_inventory = false
       this.show_cart = true
@@ -89,11 +60,15 @@ export default {
     },
     showInventory() {
       this.show_sales_inventory = true
-      // this.is_active = true
-    }
+    },
   },
   mounted() {
     this.$store.commit(SET_NEXT_BTN_DISPLAY, true)
+
+    if (this.$route.params.origin == 'new_customer') {
+      this.show_sales_inventory = false
+      this.show_checkout = true
+    }
   }
 }
 

@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import AddProduct from '../views/ProductAddOrEdit.vue'
 import AddSaleView from '../views/AddSaleView.vue'
 import CustomerAdd from '../views/CustomerAdd.vue'
+import CustomerDetails from '../views/CustomerDetails.vue'
 import CustomersView from '../views/CustomersView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import SalesView from '../views/SalesView.vue'
@@ -23,67 +24,48 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/CustomersView.vue')
   },
   {
-    path: '/add_customer',
+    path: '/add_customer/:origin',
     name: 'add_customer',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: CustomerAdd
   },
   {
     path: '/add_product',
     name: 'add_product',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: AddProduct
   },
   {
-    path: '/add_sale',
+    path: '/add_sale/:origin',
     name: 'add_sale',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: AddSaleView
   },
   {
     path: '/customers',
     name: 'customers',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: CustomersView
+  },
+  {
+    path: '/customer_details',
+    name: 'customer_details',
+    component: CustomerDetails
   },
   {
     path: '/dashboard',
     name: 'dashboard',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: DashboardView
   },
   {
     path: '/sales',
     name: 'sales',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: SalesView
   },
   {
     path: '/inventory',
     name: 'inventory',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: ProductsView
   },
   {
     path: '/login',
     name: 'login',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/auth/Login.vue')
   },
   {

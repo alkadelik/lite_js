@@ -1,7 +1,5 @@
 <template>
   <div class="container">
-    <Header @add-button="addButton"></Header>
-
     <div id="orders">
       <div class="text-center">
         <div class="empty" v-if="no_customer">
@@ -14,7 +12,7 @@
           </div>
         </div>
         <div class="nav-margin-top">
-          <Customers></Customers>
+          <Customers :origin="'customer'"></Customers>
         </div>
       </div>
     </div>
@@ -22,16 +20,14 @@
 </template>
 
 <script>
-import { SET_NEXT_BTN_DISPLAY } from '@/store/mutationTypes'
+import * as mutationTypes from '@/store/mutationTypes'
 import { mapGetters } from "vuex";
 import Customers from "../components/CustomerList";
-import Header from "../components/Header";
 
 export default {
   name: 'CustomersView',
   components: {
     Customers,
-    Header,
   },
   data() {
     return {
@@ -61,7 +57,8 @@ export default {
     if (this.has_customer == true) {
       this.no_customer = false
     }
-    this.$store.commit(SET_NEXT_BTN_DISPLAY, false)
+    this.$store.commit(mutationTypes.SET_NEXT_BTN_DISPLAY, false)
+    this.$store.commit(mutationTypes.SET_BACK_BTN_DISPLAY, null) // this should depend on if coming from sales or customer direct
   }
 }
 </script>

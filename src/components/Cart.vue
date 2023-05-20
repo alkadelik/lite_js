@@ -26,12 +26,32 @@
 			</div>
 		</div>
 	</div>
-	<a class="btn-style float-btn-style" @click="selectCustomer">Next</a>
+
+	<div v-if="vegan" id="edit-price-modal" centered title="BootstrapVue"><!-- change price when adding sales if different -->
+		<div class="edit-price-body-wrapper">
+			<div class="product-body">
+				<h2 class="black">Hi,champ</h2>
+				<p class="dark">We understand price changes to have an accurate sales record Input the actual
+					amount you sold the product.</p>
+				<div class="form">
+					<div class="form-group">
+						<label for="edit-price">Enter amount sold</label> <br>
+						<input type="text" class="form-control" id="edit-price">
+					</div>
+					<div class="form-group">
+						<input type="submit" class="btn-style" value="Change Price">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<a class="btn-style float-btn-style" @click="selectCustomer">Select or add buyer</a>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import { SAVE_CART_OBJECTS } from '@/store/mutationTypes'
+import * as mutationTypes from '@/store/mutationTypes'
 
 export default {
 	name: 'CartComponent',
@@ -47,7 +67,7 @@ export default {
 			this.count --
 		},
 		selectCustomer() {
-			this.$store.commit(SAVE_CART_OBJECTS, this.cart)
+			this.$store.commit(mutationTypes.SAVE_CART_OBJECTS, this.cart)
 			this.$emit('selectCustomer')
 		},
 	},
@@ -75,7 +95,9 @@ export default {
 			// console.log('basket is', basket) // why is const basket not working?
 			this.cart = cart_array
 		}
-	}
+
+    this.$store.commit(mutationTypes.SET_NAVIGATION, 21)
+  }
 }
 </script>
 

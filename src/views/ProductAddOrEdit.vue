@@ -1,7 +1,8 @@
 <template>
   <div class="container">
+    <Header @add-button="addButton"><h3 @click="back" class="close-popup">Add Product</h3></Header>
     <div>
-      <div v-if="!product.id" id="add-product-modal"  ref="close-product-modal" title="BootstrapVue">
+      <div v-if="!product_to_edit.id" id="add-product-modal"  ref="close-product-modal" title="BootstrapVue">
         <div class="product-body-wrapper nav-margin-top">
           <div class="product-body">
             <div class="form">
@@ -15,19 +16,19 @@
               </div>
               <div class="form-group">
                 <label for="product-name">Product Name</label>
-                <input type="text" id="product-name" class="form-control">
+                <input type="text" id="product-name" v-model="new_product.product_name" class="form-control">
                 <span>give your product a short and clear name</span>
               </div>
               <div class="form-group">
                 <label for="product-price">Product Price</label>
-                <input type="number" id="product-price" class="form-control">
+                <input type="number" id="product-price" v-model="new_product.price" class="form-control">
               </div>
               <div class="form-group">
                 <label for="product-description">Product Description <span>(Optional)</span></label>
-                <textarea id="product-description" class="form-control"></textarea>
+                <textarea id="product-description" v-model="new_product.description" class="form-control"></textarea>
               </div>
               <div class="form-group">
-                <button class="btn-style float-btn-style" @click="createProduct">Add Product</button>
+                <button class="btn-style float-btn-style" @click="saveProduct">Add Product</button>
               </div>
             </div>
           </div>
@@ -36,7 +37,7 @@
       <div v-else id="edit-product-modal"  ref="close-product-modal" title="BootstrapVue">
         <div class="product-body-wrapper">
           <div class="product-header">
-            <h3 @click="$bvModal.hide('edit-product-modal')" class="close-popup">Edit {{ product.product_name }}</h3>
+            <h3 @click="$bvModal.hide('edit-product-modal')" class="close-popup">Edit {{ product_to_edit.product_name }}</h3>
           </div>
           <div class="product-body">
             <div class="form">
@@ -50,15 +51,15 @@
               </div>
               <div class="form-group">
                 <label for="edit-product-name">Product Name</label>
-                <input type="text" id="edit-product-name" class="form-control" v-model="product_edit.product_name">
+                <input type="text" id="edit-product-name" class="form-control" v-model="edit_product.product_name">
               </div>
               <div class="form-group">
                 <label for="edit-product-price">Product Price</label>
-                <input type="text" id="edit-product-price" v-model="product_edit.price" class="form-control">
+                <input type="text" id="edit-product-price" v-model="edit_product.price" class="form-control">
               </div>
               <div class="form-group">
                 <label for="product-description">Product Description <span>(Optional)</span></label>
-                <textarea id="product-description" class="form-control" v-model="product_edit.description"></textarea>
+                <textarea id="product-description" class="form-control" v-model="edit_product.description"></textarea>
               </div>
               <div class="form-group">
                 <button class="btn-style float-btn-style" @click="editProduct">Save edits</button>
@@ -72,15 +73,28 @@
 </template>
 
 <script>
+import Header from "../components/Header"
 import { mapGetters } from "vuex"
+import {
+  createProduct,
+  updateProduct,
+} from '@/services/apiServices'
+import { SET_NAVIGATION } from "@/store/mutationTypes"
+
 export default {
   name: 'AddOrEditProduct',
   components: {
+    Header,
   },
   data() {
     return {
       imageData: "", // we will store base64 format of image in this string
-      product_edit: {
+      new_product: {
+        product_name: '',
+        price: '',
+        description: '',
+      },
+      edit_product: {
         product_name: '',
         price: '',
         description: '',
@@ -88,40 +102,69 @@ export default {
     }
   },
   methods:{
-    previewImage: function (event) {
-      // Reference to the DOM input element
+    createNewProduct(new_product) { // creates new product with the image only
+      createProduct(new_product)
+          .then((res) => {
+            console.log(res.data)
+            this.new_product.product_image = res.data.product_image;
+            this.new_product.id = res.data.id;
+            // this.new_product.temp_id = res.data.id;
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+          .finally(() => {
+            // this.uploading_image = false;
+          });
+    },
+    editProduct(product, id) {
+      updateProduct(product, id)
+          .then(() => {
+            // fethcStoreInventory(this.store.slug);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          .finally(() => {
+            // this.loading = false;
+          });
+    },
+    previewImage(event) {
+      this.saveProduct(event)
       var input = event.target;
-      console.log("hello")
-      // Ensure that you have a file before attempting to read it
       if (input.files && input.files[0]) {
-        // create a new FileReader to read this image and convert to base64 format
-        var reader = new FileReader();
-        // Define a callback function to run, when FileReader finishes its job
+        var reader = new FileReader()
         reader.onload = (e) => {
-          // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
-          // Read image as base64 and set to imageData
           this.imageData = e.target.result;
         };
-        // Start the reader job - read file as a data url (base64 format)
         reader.readAsDataURL(input.files[0]);
       }
     },
-    createProduct(){
-      console.log('clicked')
-    },
-    editProduct() {
+    saveProduct(e){
+      let new_product = new FormData()
+      try {
+        new_product.append("product_image", e.target.files[0])
+        // this.uploading_image = true
+      } catch { null }
 
-    }
+      if (!this.product_to_edit.id) {
+        this.new_product.id ? this.editProduct(this.new_product, this.new_product.id) : this.createNewProduct(new_product) 
+      } else {
+        this.editProduct(this.edit_product, this.product_to_edit.id)
+      }
+    },
   },
 	computed: {
 		...mapGetters({
-      product: 'getProductToBeEditted'
+      product_to_edit: 'getProductToBeEditted'
 		}),
 	},
   mounted() {
-    this.product_edit.product_name = this.product.product_name
-    this.product_edit.price = this.product.price
-    this.product_edit.description = this.product.description
+    this.edit_product.product_name = this.product_to_edit.product_name
+    this.edit_product.price = this.product_to_edit.price
+    this.edit_product.description = this.product_to_edit.description
+
+    this.$store.commit(SET_NAVIGATION, 11)
   }
 }
 </script>

@@ -8,17 +8,26 @@ export const apiLogin = (data) => {
 		data,
 	});
 }
+export const createProduct = (data) => {
+  return axios({
+    method: "post",
+    url: urls.createProductUrl,
+    data,
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
+  });
+}
 export const fethcStoreInventory = (slug) => {
 	axios({
 		method: "get",
 		url: `${urls.inventoryUrl}${slug}/`,
 	})
 }
-export const fetchMetrics = (data) => {
+export const fetchMetrics = (period) => {
 	return axios({
-		method: "post",
-		url: urls.metricsUrl,
-		data
+		method: "get",
+    url: `${urls.metricsUrl}${period}/`,
 	});
 }
 export const fetchOrders = () => {
@@ -54,3 +63,10 @@ export const saveOrderItems = (data) => {
 		data
 	});
 }
+export const updateProduct = (data, id) => {
+  return axios({
+    method: "patch",
+    url: `${urls.updateProductUrl}${id}/`,
+    data,
+  });
+};

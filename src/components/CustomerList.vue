@@ -1,5 +1,6 @@
 <template>
 	<div id="select-customer-modal" title="BootstrapVue">
+    <Header @add-button="addButton"><h3 @click="back" class="close-popup">Add Product</h3></Header>
 		<div class="select-customer-body-wrapper">
 			<div class="product-body">
 				<p class="all-products">{{ customerCount }} customer<span v-if="customerCount > 1">s</span></p>
@@ -8,8 +9,12 @@
 					<label for="searchCustomer"><img src="../assets/images/icons/search-icon.svg" alt=""></label>
 					<input type="submit" id="searchCustomer">
 				</div>
-				<div class="select-customer-wrapper" v-for="customer, i in customers" :key="i" @click="toggleSelectedCustomer(customer.id)">
-					<div class="list_style_1">
+				<div 
+					class="select-customer-wrapper"
+					v-for="customer, i in customers" :key="i" 
+					@click="toggleSelectedCustomer(customer.id)"
+				>
+					<div class="list_style_1" :class="{ active: customer_id == customer.id}">
 						<div style="display: flex">
 							<div class="customer_img">
 								<img src="../assets/images/icons/select-customer-author-icon.svg" alt="">
@@ -22,7 +27,7 @@
 						</div>
 					</div>
 				</div>
-				<a class="btn-style float-btn-style" @click="checkout" v-if="displayNextBtn">Next</a><!-- show only if in cart-->
+				<a class="btn-style float-btn-style" @click="checkout" v-if="displayNextBtn">Go to checkout</a><!-- show only if in cart-->
 			</div>
 		</div>
 	</div>
@@ -31,19 +36,33 @@
 <script>
 import { mapGetters } from 'vuex';
 import { SAVE_SELECTED_CUSTOMER } from '@/store/mutationTypes'
+import Header from "../components/Header";
 export default {
 	name: 'CustomerList',
+	components: {
+		Header,
+	},
+	props: [
+		'origin',
+	],
 	data: () => {
 		return {
 			customer_id: 0,
 		}
 	},
 	methods: {
+		addButton() {
+      this.addCustomer()
+    },
+		addCustomer() {
+      this.$router.push({name: 'add_customer', params: {origin: this.origin}})
+		},
 		checkout() {
       this.$store.commit(SAVE_SELECTED_CUSTOMER, this.customer_id)
 			this.$emit('checkout')
 		},
     toggleSelectedCustomer(id) {
+			// toggle only if coming from sales, otherwise, view customer details
 			switch(this.customer_id) {
 				case 0:
 					this.customer_id = id
@@ -68,7 +87,7 @@ export default {
 		},
 		displayNextBtn() {
 			return this.position.display_next_button
-		}
+		},
 	},
 }
 </script>
@@ -99,5 +118,8 @@ h3 {
 .customer_details p {
 	margin: 0;
 	padding: 2px 0;
+}
+.active {
+	border: 1px solid #4CAF50;
 }
 </style>

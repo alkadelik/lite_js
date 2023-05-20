@@ -4,7 +4,6 @@
       <div class="product" @click="viewProductDetail(product)">
         <div class="img-wrapper" v-b-modal.detail-product-modal>
           <img :src="'http://127.0.0.1:8000' + product.product_image" alt="">
-          <!-- <img src="../assets/images/product-img-3.png" alt=""> --><!-- use this if no image -->
         </div>
         <div class="content-wrapper">
           <h3>{{ product.product_name }} </h3>

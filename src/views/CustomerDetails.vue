@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Header @add-button="addButton"><h3 @click="back" class="close-popup">Add Product</h3></Header>
+    <Header @add-button="addButton"></Header>
     <div class="product-body nav-margin-top">
       <div class="img-wrapper">
         <!-- <img src="../assets/images/detail-products-image-1.png" alt=""> -->
@@ -48,13 +48,14 @@
 <script>
 import Header from "../components/Header"
 import { mapGetters } from "vuex"
+import { SET_NAVIGATION } from "@/store/mutationTypes"
 // import StarRating from 'vue-star-rating'
 
 // Vue.component('star-rating', StarRating)
 
 
 export default {
-  name: 'ProductDetails',
+  name: 'CustomerDetails',
   components: {
     Header,
     // StarRating
@@ -105,6 +106,9 @@ export default {
       product: 'getProductToBeEditted'
 		}),
 	},
+  mounted() {
+    this.$store.commit(SET_NAVIGATION, 10)
+  }
 }
 </script>
 

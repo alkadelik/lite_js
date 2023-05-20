@@ -33,7 +33,7 @@ export default {
 
 <style>
 .menu-padding {
-  height: 70px;
+  height: 125px;
   width: 100%;
 }
 #app {
@@ -71,7 +71,7 @@ nav a.router-link-exact-active {
   color: #ffffff;
   border-radius: 6px;
   font-weight: 600 !important;
-  font-size: 14px !important;
+  font-size: 20px !important;
   line-height: 15px !important;
   /* height: 45px; */
   /* padding: 14px 30px 15px;
@@ -81,9 +81,7 @@ nav a.router-link-exact-active {
   vertical-align: middle;
   min-width: 161px;
   text-decoration: none;
-}
-.btn-style {
-  padding: 14px;
+  padding: 15px;
 }
 
 .float-btn-style {
@@ -92,8 +90,7 @@ nav a.router-link-exact-active {
   left: 50%;
   transform: translateX(-50%);
   min-width: calc(100% - 45px);
-
-  padding: 12px;
+  padding: 15px;
   /* min-width: calc(100% - 40px); */
 }
 .empty {

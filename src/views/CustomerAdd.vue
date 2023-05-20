@@ -1,5 +1,6 @@
 <template>
 	<div class="container">
+    <Header @add-button="addButton"><h3 @click="back" class="close-popup">Add Product</h3></Header>
 		<div id="add-new-customer-modal" class="create_customer">
 			<div class="add-customer-body-wrapper">
 				<div class="product-header">
@@ -30,121 +31,17 @@
 							<label for="your-email">Address</label>
 							<input v-model="customer.address" id="your-address" class="form-control">
 						</div>
+						<!-- <div class="form-group">
+							<label for="your-email">Local government area</label>
+							<input v-model="customer.address" id="your-address" class="form-control">
+						</div> -->
 						<div class="form-group">
 							<label for="your-phone">Phone number</label>
 							<input v-model="customer.phone" type="tel" id="your-phone" class="form-control">
 						</div>
 						<div class="form-group">
-							<button class="btn-style" @click="createCustomer">Save customer</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-
-		<div id="detail-customer-modal" style="display: none"><!-- customer detail -->
-			<div class="edit-product-body-wrapper edit-customer-body-wrapper">
-				<div class="product-header">
-					<h3 @click="$bvModal.hide('detail-customer-modal')" class="close-popup">Product</h3>
-				</div>
-				<div class="product-body">
-					<div class="img-wrapper">
-						<img src="../assets/images/customer-detail-img.png" alt="">
-						<h2 class="h2">Mariam Alade</h2>
-					</div>
-					<div class="product-detail-wrapper">
-						<div class="product-detail">
-							<div class="row">
-								<div class="col-4">
-									<span>Email</span>
-								</div>
-								<div class="col-8">
-									<h3>Mariam@gmail.com</h3>
-								</div>
-							</div>
-						</div>
-						<div class="product-detail">
-							<div class="row">
-								<div class="col-4">
-									<span>Address</span>
-								</div>
-								<div class="col-8">
-									<h3>No. 15a Idejo Str, Victoria Island</h3>
-								</div>
-							</div>
-						</div>
-						<div class="product-detail">
-							<div class="row">
-								<div class="col-4">
-									<span>Phone number</span>
-								</div>
-								<div class="col-8">
-									<h3>09014567839</h3>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="product-btn">
-						<a href="#" class="btn-delete">Delete</a>
-						<a href="#" class="btn-edit">Edit</a>
-					</div>
-				</div>
-			</div>
-		</div>
-
-
-		<div v-if="vegan" id="add-customer-modal"  ref="close-product-modal" title="BootstrapVue"><!-- add new customer during checkout-->
-			<div class="add-customer-body-wrapper">
-				<div class="product-header">
-					<h3 @click="$bvModal.hide('add-customer-modal')" class="close-popup">Add Customer</h3>
-				</div>
-				<div class="product-body">
-					<h2 class="black">Add Customer</h2>
-					<p class="dark">Create a profile for your customers to <br>
-						constantly engage them.</p>
-					<div class="form">
-						<div class="row">
-							<div class="col-6">
-								<div class="form-group">
-									<label for="first-name">First Name</label>
-									<input type="text" id="first-name" class="form-control">
-								</div>
-							</div>
-							<div class="col-6">
-								<div class="form-group">
-									<label for="last-name">Last Name</label>
-									<input type="text" id="last-name" class="form-control">
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="your-email">Email Address</label>
-							<input type="email" id="your-email" class="form-control">
-						</div>
-						<div class="form-group">
-							<label for="your-email">Address</label>
-							<input type="text" id="your-address" class="form-control">
-						</div>
-						<div class="form-group">
-							<label for="your-phone">Phone number</label>
-							<input type="tel" id="your-phone" class="form-control">
-						</div>
-						<div class="product-delivery-status">
-							<p class="dark label">Has this product been Delivered</p>
-							<div class="form-group">
-								<input id="delivered" name="delivery-status" type="radio">
-								<label for="delivered" class="radio-label">Delivered</label>
-								<span>Receipt and feedback will be sent to the customer</span>
-							</div>
-							<div class="form-group">
-								<input id="not-delivered" name="delivery-status" type="radio">
-								<label for="not-delivered" class="radio-label">Not +Delivered</label>
-								<span>Receipt and feedback will be sent to the customer</span>
-							</div>
-						</div>
-						<div class="form-group">
-							<input type="submit" value="Add Sale" class="btn-style" @click="closeAllModals">
+							<button v-if="from == 'sales'" class="btn-style" @click="checkout">Go to checkout</button>
+							<button v-else class="btn-style" @click="createCustomer">Save customer</button>
 						</div>
 					</div>
 				</div>
@@ -154,12 +51,14 @@
 </template>
 <script>
 import { saveCustomer } from '@/services/apiServices'
-import { SAVE_NEW_CUSTOMER } from '@/store/mutationTypes'
-import { SET_ADD_BTN_DISPLAY } from '@/store/mutationTypes'
-// import store from '@/store'
+import * as mutationTypes from '@/store/mutationTypes'
+import Header from "../components/Header"
 
 export default {
 	name: 'AddCustomer',
+	components: {
+		Header,
+	},
 	data:() => ({
 		customer: {
 			'first_name': '',
@@ -169,22 +68,33 @@ export default {
 			'address': '',
 			'city': '',
 		},
-		mango: '',
+		new_customer_id: 0,
+		show_checkout: false,
 	}),
 	methods: {
+		checkout() {
+			this.createCustomer()
+      this.$store.commit(mutationTypes.SAVE_SELECTED_CUSTOMER, this.new_customer_id)
+			this.$router.push({name: 'add_sale', params: {origin: 'new_customer'}})
+		},
 		createCustomer() {
 			// check that it's complete before submitting
 			saveCustomer(this.customer)
 			.then((res) => {
-
-				this.$store.commit(SAVE_NEW_CUSTOMER, res.data.customer)
+				this.new_customer_id = res.data.customer.id
+				this.$store.commit(mutationTypes.SAVE_NEW_CUSTOMER, res.data.customer)
 			})
 			// give success/failed feedback
 			// stay on if merchant wants to add another customer
 		}
 	},
+	computed: {
+		from() {
+			return this.$route.params.origin
+		}
+  },
 	mounted() {
-    this.$store.commit(SET_ADD_BTN_DISPLAY, false)
+    this.$store.commit(mutationTypes.SET_NAVIGATION, 31)
   }
 }
 </script>

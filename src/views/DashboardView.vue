@@ -18,9 +18,9 @@
 						<div class="content-wrapper">
 							<p>{{ data.title }}</p>
 							<div class="total">
-								<h3 class="h3">&#8358;{{ data.data }}</h3>
+								<h3 class="h3"><span v-if="data.currency == 1">&#8358;</span>{{ data.data }}</h3>
 								<span class="triangle-arrow">
-                  {{ data.data > 0 ? "+" : "-" }} {{ data.percent }}
+                  {{ data.data > 0 ? "+" : "-" }} {{ data.percent }}%
                 </span>
 							</div>
 							<span>vs {{ data.period }}</span>
@@ -72,6 +72,7 @@ import {
   fetchMetrics,
 } from '@/services/apiServices'
 import * as mutationTypes from '@/store/mutationTypes'
+import * as dayjs from "dayjs";
 
 import Arrows from "@/components/icons/Arrows"
 import Profile from "@/components/icons/Profile"
@@ -235,11 +236,7 @@ export default {
   },
 	methods: {
     updateMetrics() {
-      let data = {
-        'email': this.store.email,
-        'period': this.period
-      }
-      fetchMetrics(data)
+      fetchMetrics(this.period)
       .then((res) => {
         this.$store.commit(mutationTypes.SAVE_METRICS, res.data)
       })
@@ -251,11 +248,20 @@ export default {
       orders: 'getOrders',
       store: 'getStore',
 		}),
+
+    timeOfDay() {
+      let hrs = dayjs().get("hours");
+      return hrs < 12
+        ? "morning"
+        : hrs >= 12 && hrs < 6
+        ? "afternoon"
+        : "evening";
+    },
 	},
 	mounted() {
     this.updateMetrics()
 
-    fetchOrders() // fetch orders in orders page
+    fetchOrders() // do this in orders in orders, maybe?
       .then((res) => {
         this.$store.commit(mutationTypes.SAVE_ORDERS, res.data)
       })
@@ -268,7 +274,9 @@ export default {
       })
       .finally(() => {
         this.loading = false
-      });
+      })
+
+      
 
     // this.verified = this.store?.verified;
     // console.log(this.verified)

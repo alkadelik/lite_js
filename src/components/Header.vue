@@ -1,11 +1,12 @@
 <template>
-  <div class="header">
-    <div class="">
-      <div class="page_title row">
-        <div class="col-6 align-self-center">
-          <a href="#"><strong v-html="pageTitle"></strong></a>
+  <div class="">
+    <div class="header">
+      <div class="page_title">
+        <div>
+          <slot></slot>
         </div>
-        <div class="align-self-center">
+        <div></div><!-- do not remove. used to justify-content: space-between -->
+        <div class="">
           <div class="user-header-wrapper" v-if="userProfile === true">
             <div class="bell-icon">
               <img src="../assets/images/icons/notification-bell-icon.svg" alt="bell icon">
@@ -42,11 +43,15 @@ export default {
 			showProductInventory: false,
 			noProduct: false,
       show_add_button: false,
+      show_back_button: true,
 		}
 	},
 	methods:{
     addEntity() {
       this.$emit('addButton')
+    },
+    back() {
+      this.$emit('back')
     },
 		previewImage: function (event) {
 			// Reference to the DOM input element
@@ -68,24 +73,35 @@ export default {
 	},
   computed: {
 		...mapGetters({
-			position: 'getComponentSettings'
+			location: 'getComponentSettings',
 		}),
-		// displayAddBtn() {
-		// 	return this.position.display_add_button
-		// }
 	},
   mounted() {
-    switch(this.position.display_header) {
+    switch(this.location.header_settings) {
       case 0:
         this.show_add_button=false
+        this.show_back_button=false
         break;
+      // case 10: // product detail has issues
+      // case 11:
+      // case 20: // shop floor has issues
+      // case 21: // cart. did not load. Should have over-riden shop floor
+      // case 22:
+      // case 30:
+      // case 31: // add customer. has issues
+      //   this.show_add_button=false
+      //   this.show_back_button=true
+      //   break;
       case 1:
       case 2:
       case 3:
         this.show_add_button=true
+        this.show_back_button=false
+        break;
+      // case 12:
+        // this.show_back_button=true
+        // break;
     }
-
-    // this.position.display_add_button == false ? 
   }
 }
 
@@ -112,6 +128,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: end;
 }
 .product-inventory-header a {
   display: flex;
@@ -123,5 +140,16 @@ export default {
   padding: 5px;
   margin-left: auto;
   background: #4CAF50;
+}
+h3 {
+  margin-left: 15px;
+  font-size: 18px;
+  font-weight: bold;
+}
+.close-popup::before {
+  content: url(http://127.0.0.1:8081/img/page-back-icon.ee1c1bcf.svg);
+  position: relative;
+  left: -10px;
+  top: 1px;
 }
 </style>

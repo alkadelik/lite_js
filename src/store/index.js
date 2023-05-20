@@ -24,10 +24,11 @@ export default createStore({
     customers: [],
     checkout_customer: {},
     component_settings: {
-      display_header: null,
-      display_navigation: null,
+      header_settings: null, // used
+      // display_navigation: null,
       display_next_button: null,
-      display_add_button: null,
+      // display_add_button: null,
+      // display_back_button: null,
       page_title: '',
     },
     email_verified: false,
@@ -72,11 +73,14 @@ export default createStore({
     [mutationTypes.SAVE_NEW_CUSTOMER](state, data) {
       state.customers.push(data);
     },
-    [mutationTypes.SET_ADD_BTN_DISPLAY](state, data) {
-      state.component_settings.display_add_button = data;
-    },
+    // [mutationTypes.SET_ADD_BTN_DISPLAY](state, data) {
+    //   state.component_settings.display_add_button = data;
+    // },
+    // [mutationTypes.SET_BACK_BTN_DISPLAY](state, data) {
+    //   state.component_settings.display_back_button = data;
+    // },
     [mutationTypes.SET_NAVIGATION](state, data) {
-      state.component_settings.display_header = data;
+      state.component_settings.header_settings = data;
     },
     [mutationTypes.SET_NEXT_BTN_DISPLAY](state, data) {
       state.component_settings.display_next_button = data;

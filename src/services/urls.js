@@ -43,7 +43,8 @@ export const saveOrderUrl = `${prefix}api/inventory/order/create/`;
 export const saveOrderItemUrl = `${prefix}api/inventory/order_item/create/`;
 
 // Metrics
-export const metricsUrl = `${prefix}order/metrics/`;
+// export const metricsUrl = `${prefix}order/metrics/`;
+export const metricsUrl = `${prefix}api/inventory/order/metrics/`;
 
 // Merchant payments
 export const saveBankUrl = `${prefix}api/settlement/bank/create/`;

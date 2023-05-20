@@ -1,5 +1,6 @@
 <template>
   <div class="sale-inventory-wrapper">
+    <p>Select products for this sale</p>
     <div class="form products">
       <div class="form-group product" v-for="product, i in inventory" :key="i" @click="toggleProductInCart(product.id)">
         <input type="checkbox" :id="'product' + i">
@@ -14,13 +15,13 @@
         </label>
       </div>
     </div>
-    <a class="btn-style float-btn-style" @click="goToCart">Next</a>
+    <a class="btn-style float-btn-style" @click="goToCart">View cart</a>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import { SAVE_CART } from '@/store/mutationTypes'
+import * as mutationTypes from '@/store/mutationTypes'
 
 export default {
 	name: 'SalesInventory',
@@ -38,7 +39,7 @@ export default {
       index == -1 ? this.temp_cart.push(id) : '' // this.temp_cart.splice(index, 1) 
     },
     goToCart() {
-      this.$store.commit(SAVE_CART, this.temp_cart)
+      this.$store.commit(mutationTypes.SAVE_CART, this.temp_cart)
       this.$emit('openCart')
     }
   },
@@ -47,6 +48,9 @@ export default {
 			inventory: 'getInventory',
 		})
 	},
+  mounted() {
+    this.$store.commit(mutationTypes.SET_NAVIGATION, 20)
+  }
 }
 </script>
 
