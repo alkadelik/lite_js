@@ -12,7 +12,7 @@
 				<div 
 					class="select-customer-wrapper"
 					v-for="customer, i in customers" :key="i" 
-					@click="toggleSelectedCustomer(customer.id)"
+					@click="selectFunction(customer.id)"
 				>
 					<div class="list_style_1" :class="{ active: customer_id == customer.id}">
 						<div style="display: flex">
@@ -60,6 +60,10 @@ export default {
 		checkout() {
       this.$store.commit(SAVE_SELECTED_CUSTOMER, this.customer_id)
 			this.$emit('checkout')
+		},
+		selectFunction(id) {
+			console.log(this.displayNextBtn)
+			this.displayNextBtn ? this.toggleSelectedCustomer(id) : this.$router.push({name: 'customer_details'})
 		},
     toggleSelectedCustomer(id) {
 			// toggle only if coming from sales, otherwise, view customer details
