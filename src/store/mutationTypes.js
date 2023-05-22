@@ -1,3 +1,4 @@
+export const INITIALISE = "INITIALISE"
 export const LOGGED_IN = "LOGGED_IN"
 export const SAVE_NEW_CUSTOMER = "SAVE_NEW_CUSTOMER"
 export const SAVE_ACCOUNT_ID = "SAVE_ACCOUNT_ID"

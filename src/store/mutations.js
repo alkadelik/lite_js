@@ -4,6 +4,17 @@ export default {
   [mutationTypes.EMAIL_VERIFIED](state, data) {
     state.email_verified = data;
   },
+  [mutationTypes.INITIALISE](state) {
+    // if(localStorage.getItem('leyyow_' + state.store_slug)) {
+    //   this.replaceState(
+    //     Object.assign(state, JSON.parse(localStorage.getItem('leyyow_' + state.store_slug)))
+    //   )
+    if(localStorage.getItem('leyyow')) {
+      this.replaceState(
+        Object.assign(state, JSON.parse(localStorage.getItem('leyyow')))
+      )
+    }
+  },
   [mutationTypes.SAVE_ORDERS](state, data) {
     state.orders = data;
     state.orders.length > 0 ? state.has_sale = true : ''

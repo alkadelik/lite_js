@@ -5,10 +5,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import store from '@/store/index'
+import { mapGetters } from 'vuex';
 import * as mutationTypes from '@/store/mutationTypes'
-
 import Menu from '@/components/NavigationMenu.vue';
 export default {
   components: {
@@ -17,16 +16,19 @@ export default {
   computed: {
     ...mapGetters({
       logged_in: 'getLoggedIn',
+      state: 'getState',
     })
   },
   created() {
-    let token = window.sessionStorage.getItem("leyyow_token");
+    let token = localStorage.getItem("leyyow_token");
     if (token) {
-      // this.$store.commit(mutationTypes.LOGGED_IN, true);
       store.commit(mutationTypes.LOGGED_IN, true);
     } else {
       this.$store.commit(mutationTypes.LOGGED_IN, false);
     }
+  },
+  beforeMount() {
+    store.commit(mutationTypes.INITIALISE)
   }
 }
 </script>

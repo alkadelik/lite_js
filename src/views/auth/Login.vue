@@ -28,15 +28,14 @@ export default {
 			let data = { username: this.username, password: this.password}
 			apiLogin(data)
 			.then((res) => {
-				window.sessionStorage.setItem("leyyow_token", res.data.token)
+				localStorage.setItem("leyyow_token", res.data.token)
 
-				localStorage.setItem("leyyow", res.data)
 				let store = res.data.store
 
 				// For some reason, stor.slug isn't registering so I included it explicitly as  part
 				// of the API response hence why it needs to be fetched as res.data.slug below, and then saved with the store.
 				store.slug = res.data.slug
-				localStorage.setItem("store_slug", store.slug)
+				// localStorage.setItem("store_slug", store.slug) // probably needed in gallery | perhaps put in the state
 
 				this.$store.commit(mutationTypes.LOGGED_IN, true)
 				this.$store.commit(mutationTypes.SAVE_STORE, store)

@@ -17,6 +17,7 @@ export default {
   getProductToBeEditted: (state) => state.to_be_editted,
   getSettingsState: (state) => state.settings,
   getSettlement: (state) => state.settlement,
+  getState: (state) => state,
   getStore: (state) => state.store,
   getStoreSlug: (state) => state.store_slug,
   getUnsavedChange: (state) => state.unsaved_change,
