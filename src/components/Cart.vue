@@ -80,6 +80,7 @@ export default {
 			let product = this.cart[i]
 			product.count++
 		},
+		
     // removeFromCart(i) {
     //   // Deletes all instances of a product while viewing cart
     //   this.cart.splice(i, 1)
