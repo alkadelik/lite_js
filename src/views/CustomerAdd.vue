@@ -1,6 +1,7 @@
 <template>
 	<div class="container">
-    <Header @add-button="addButton"><h3 @click="back" class="close-popup">Add Product</h3></Header>
+    <Header v-if="from_customer_menu" back_to='customer list' @add-button="addButton"></Header>
+    <Header v-else back_to='customer list from sales' @add-button="addButton"></Header>
 		<div id="add-new-customer-modal" class="create_customer">
 			<div class="add-customer-body-wrapper">
 				<div class="product-header">
@@ -93,8 +94,8 @@ export default {
 			return this.$route.params.origin
 		}
   },
-	mounted() {
-    this.$store.commit(mutationTypes.SET_NAVIGATION, 31)
+	beforeMount() {
+    this.$store.commit(mutationTypes.SET_HEADER_SETTINGS, 31)
   }
 }
 </script>

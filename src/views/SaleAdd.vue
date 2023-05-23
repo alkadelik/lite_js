@@ -1,20 +1,16 @@
 <template>
-    <Header @add-button="addButton"><h3 @click="back" class="close-popup">Add Product</h3></Header>
+    <Header back_to='sales' @add-button="addButton"></Header>
     <div id="sales" class="nav-margin-top">
       <div>
-        <!-- when trying to add sale but the merchant doesn't have any products, it should tell the user -->
         <Products v-if="show_sales_inventory" @open-cart="openCart"></Products>
-        <Cart v-if="show_cart" @select-customer="selectCustomer"></Cart>
         <Customers v-if="show_customers" @checkout="checkout" :origin="'sales'"></Customers>
-        <Checkout v-if="show_checkout"/>
       </div>
     </div>
 </template>
 
 <script>
 import { SET_NEXT_BTN_DISPLAY } from '@/store/mutationTypes'
-import Cart from '@/components/Cart'
-import Checkout from '@/components/Checkout'
+import { SET_HEADER_SETTINGS } from '@/store/mutationTypes'
 import Customers from '@/components/CustomerList'
 import Products from '@/components/ProductShopFloor'
 import Header from "../components/Header"
@@ -27,8 +23,6 @@ import Header from "../components/Header"
 export default {
   name: 'SalesView',
   components: {
-    Cart,
-    Checkout,
     Customers,
     Header,
     Products,
@@ -52,11 +46,9 @@ export default {
     },
     openCart() {
       this.show_sales_inventory = false
-      this.show_cart = true
+      this.$router.push({name: 'cart'})
     },
     selectCustomer() {
-      this.show_cart = false
-      this.show_customers = true
     },
     showInventory() {
       this.show_sales_inventory = true
@@ -69,13 +61,20 @@ export default {
       this.show_sales_inventory = false
       this.show_checkout = true
     }
+    if (this.$route.params.origin == 'cart') {
+      this.show_sales_inventory = false
+      this.show_customers = true
+    }
+  },
+  beforeMount() {
+    this.$store.commit(SET_HEADER_SETTINGS, 20)
   }
 }
 
   /* 
   DOCUMENTATION
   The add sale process:
-  - Select items from SalesInventory component
+  - Select items from SalesInventory component (ideally with variants)
   - Then add/remove qty in the Cart component
   - Then select (or add) customer from the Customers component (note the Customers component has multiple uses)
   - Then finanlise purchase info at Checkout component - then save sale

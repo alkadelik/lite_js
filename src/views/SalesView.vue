@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Header pageTitle="Sales" :addProduct="true" @add-button="addButton"></Header>
+    <Header @add-button="addButton"></Header>
     <div v-if="no_sale" class="empty">
       <div class="">
         <img src="../assets/images/no-product-added-image.png" alt="">

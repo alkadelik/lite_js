@@ -52,7 +52,7 @@
   </template>
   
 <script>
-import { SET_NAVIGATION } from '@/store/mutationTypes'
+import { SET_HEADER_SETTINGS } from '@/store/mutationTypes'
 export default {
 	name: 'NavigationMenu',
 	props: {
@@ -67,7 +67,7 @@ export default {
   methods: {
     saveNav(n) {
       this.nav = n
-      this.$store.commit(SET_NAVIGATION, n)
+      this.$store.commit(SET_HEADER_SETTINGS, n)
     }
   },
 

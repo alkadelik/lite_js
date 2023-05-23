@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Header @add-button="addButton"></Header>
+    <Header back_to='customer list' @add-button="addButton"></Header>
     <div class="product-body nav-margin-top">
       <div class="img-wrapper">
         <!-- <img src="../assets/images/detail-products-image-1.png" alt=""> -->
@@ -39,7 +39,7 @@
         <hr>
       </div>
       <div class="product-btn">
-        <button @click="editProduct">Edit</button>
+        <button @click="editCustomer">Edit</button>
       </div>
     </div>
   </div>
@@ -48,7 +48,7 @@
 <script>
 import Header from "../components/Header"
 import { mapGetters } from "vuex"
-import { SET_NAVIGATION } from "@/store/mutationTypes"
+import { SET_HEADER_SETTINGS } from "@/store/mutationTypes"
 // import StarRating from 'vue-star-rating'
 
 // Vue.component('star-rating', StarRating)
@@ -76,8 +76,8 @@ export default {
     }
   },
   methods:{
-    editProduct() {
-      this.$router.push({name: 'add_product'})
+    editCustomer() {
+      this.$router.push({name: 'add_customer', params:{origin: '_'}})
     },
     previewImage: function (event) {
       // Reference to the DOM input element
@@ -106,8 +106,8 @@ export default {
       product: 'getProductToBeEditted'
 		}),
 	},
-  mounted() {
-    this.$store.commit(SET_NAVIGATION, 10)
+  beforeMount() {
+    this.$store.commit(SET_HEADER_SETTINGS, 30)
   }
 }
 </script>

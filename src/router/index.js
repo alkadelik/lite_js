@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import AddProduct from '../views/ProductAddOrEdit.vue'
-import AddSaleView from '../views/AddSaleView.vue'
+import SaleAdd from '../views/SaleAdd.vue'
 import CustomerAdd from '../views/CustomerAdd.vue'
 import CustomerDetails from '../views/CustomerDetails.vue'
 import CustomersView from '../views/CustomersView.vue'
@@ -37,7 +37,17 @@ const routes = [
   {
     path: '/add_sale/:origin',
     name: 'add_sale',
-    component: AddSaleView
+    component: SaleAdd
+  },
+  {
+    path: '/cart',
+    name: 'cart',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Cart.vue')
+  },
+  {
+    path: '/checkout',
+    name: 'checkout',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Checkout.vue')
   },
   {
     path: '/customers',

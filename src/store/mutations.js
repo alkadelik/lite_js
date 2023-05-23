@@ -41,7 +41,7 @@ export default {
   // [mutationTypes.SET_BACK_BTN_DISPLAY](state, data) {
   //   state.component_settings.display_back_button = data;
   // },
-  [mutationTypes.SET_NAVIGATION](state, data) {
+  [mutationTypes.SET_HEADER_SETTINGS](state, data) {
     state.component_settings.header_settings = data;
   },
   [mutationTypes.SET_NEXT_BTN_DISPLAY](state, data) {

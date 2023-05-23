@@ -3,11 +3,11 @@
     <div class="header">
       <div class="page_title">
         <div>
-          <slot></slot>
+          <h3 v-if="show_back_button" @click="back" class="close-popup">{{ back_to }}</h3>
         </div>
-        <div></div><!-- do not remove. used to justify-content: space-between -->
+        <!--<div></div>--><!-- do not remove. used to justify-content: space-between -->
         <div class="">
-          <div class="user-header-wrapper" v-if="userProfile === true">
+          <div class="user-header-wrapper" v-if="vegan === true">
             <div class="bell-icon">
               <img src="../assets/images/icons/notification-bell-icon.svg" alt="bell icon">
             </div>
@@ -21,8 +21,8 @@
               </select>
             </div>
           </div>
-          <div class="product-inventory-header" v-if="show_add_button">
-            <a class="btn-style" @click="addEntity"><img src="../assets/images/icons/add-product-icon.svg" alt=""></a>
+          <div class="product-inventory-header">
+            <a  v-if="show_add_button" class="btn-style" @click="addEntity"><img src="../assets/images/icons/add-product-icon.svg" alt=""></a>
           </div>
         </div>
       </div>
@@ -31,19 +31,17 @@
 </template>
   
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'vuex'
 export default {
 	name: 'HeaderComponent',
 	props: [
-    // 'isActive', // not sure why sales is sending this
+    'back_to',
 	],
 	data() {
 		return {
-			imageData: "", // we will store base64 format of image in this string
-			showProductInventory: false,
-			noProduct: false,
-      show_add_button: false,
+      show_add_button: true,
       show_back_button: true,
+      vegan: false,
 		}
 	},
 	methods:{
@@ -54,9 +52,8 @@ export default {
       this.$emit('back')
     },
     logout() {
-      localStorage.removeItem("leyyow_token")
-      localStorage.removeItem('leyyow')
-      localStorage.removeItem('store_slug')
+      localStorage.clear()
+      // you don't want to necessarily clear everything on logout. E.g the cart. Maybe store this in the server in future
       // this.$store.commit(mutationTypes.LOGGED_IN, false) // mutate logout
       this.$router.push('/login') // or some other page that has helhpful info
     }
@@ -68,29 +65,31 @@ export default {
 	},
   mounted() {
     switch(this.location.header_settings) {
-      case 0:
+      case 0: // Dashboard
         this.show_add_button=false
         this.show_back_button=false
         break;
-      // case 10: // product detail has issues
-      // case 11:
-      // case 20: // shop floor has issues
-      // case 21: // cart. did not load. Should have over-riden shop floor
-      // case 22:
-      // case 30:
-      // case 31: // add customer. has issues
-      //   this.show_add_button=false
-      //   this.show_back_button=true
-      //   break;
+      case 10: // View product details | product detail has issues
+      case 11: // Edit product
+      case 12: // Add product
+      case 20: // shop floor (should show add button in future so users can add product on the go) | controls shop floor and customer list for adding sales
+      case 21: // cart
+      case 22: // checkout
+      case 30: // customer details
+      case 31: // add customer
+        this.show_add_button=false
+        this.show_back_button=true
+        break;
+      case 32: // add customer during sale
+        this.show_add_button=true
+        this.show_back_button=true
+        break;
       case 1:
       case 2:
       case 3:
         this.show_add_button=true
         this.show_back_button=false
         break;
-      // case 12:
-        // this.show_back_button=true
-        // break;
     }
   }
 }
@@ -100,6 +99,21 @@ export default {
   Computed:
   the switch case controls the display of the header and it's constituent elements across the app.
   Every view and component where the header is imported emits an index to let the Header know what to display
+
+  Key
+  0 : Dashboard
+  10: View produt detail
+  11: (Edit product) - affects back button: Inventory -> Detail -> Edit | Inventory -> Add
+  12: Add product
+  20: Add sales (product list)
+  21: Cart 
+  22: Checkout
+  30: View customer details
+  31: Add customer
+  32: Edit customer - affects back button: Customer -> Detail -> Edit | Customer -> Add
+  1 : Inventory
+  2 : Sales
+  3 : Customer
 
   */
 </script>

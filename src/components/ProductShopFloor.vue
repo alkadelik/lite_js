@@ -49,7 +49,7 @@ export default {
 		})
 	},
   mounted() {
-    this.$store.commit(mutationTypes.SET_NAVIGATION, 20)
+    this.$store.commit(mutationTypes.SET_HEADER_SETTINGS, 20)
   }
 }
 </script>

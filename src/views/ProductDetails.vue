@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Header @add-button="addButton"><h3 @click="back" class="close-popup">Add Product</h3></Header>
+    <Header back_to='inventory' @add-button="addButton"></Header>
     <div class="product-body nav-margin-top">
       <div class="img-wrapper">
         <!-- <img src="../assets/images/detail-products-image-1.png" alt=""> -->
@@ -48,11 +48,10 @@
 <script>
 import Header from "../components/Header"
 import { mapGetters } from "vuex"
+import { SET_HEADER_SETTINGS } from "@/store/mutationTypes"
 // import StarRating from 'vue-star-rating'
 
 // Vue.component('star-rating', StarRating)
-
-
 export default {
   name: 'ProductDetails',
   components: {
@@ -105,6 +104,9 @@ export default {
       product: 'getProductToBeEditted'
 		}),
 	},
+  beforeMount() {
+    this.$store.commit(SET_HEADER_SETTINGS, 10)
+  }
 }
 </script>
 

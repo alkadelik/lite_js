@@ -1,4 +1,7 @@
 <template>
+	<div class="nav-margin-top">
+		<Header back_to='select product' @add-button="addButton"></Header>
+	</div>
 	<div class="cart_item" v-for="item, i in cart" :key="i">
 		<div class="img_wrapper">
 			<!-- <img src="../assets/images/inventory-product-image-1.png" alt=""> -->
@@ -53,12 +56,12 @@
 <script>
 import { mapGetters } from 'vuex';
 import * as mutationTypes from '@/store/mutationTypes'
-// import Variants from './Variants.vue';
+import Header from "../components/Header"
 
 export default {
 	name: 'CartComponent',
 	components: {
-		// Variants,
+		Header,
 	},
 	data: () => ({
 		cart: [],
@@ -67,14 +70,13 @@ export default {
 		decrease(i) {
 			let product = this.cart[i]
 			product.count--
-			
 			// if (this.checkStock(product)) {
-		        //   product.count++
-		        //   product.subTotal = product.discountAmt
-		        //     ? (product.count * (product.price - product.discountAmt))
-		        //     : (product.count * product.price)
-		        //   this.$store.commit(mutationTypes.SAVE_CART, this.cart)
-		        // }	
+			//   product.count++
+			//   product.subTotal = product.discountAmt
+			//     ? (product.count * (product.price - product.discountAmt))
+			//     : (product.count * product.price)
+			//   this.$store.commit(mutationTypes.SAVE_CART, this.cart)
+			// }	
 		},
 		increase(i) {
 			let product = this.cart[i]
@@ -88,7 +90,7 @@ export default {
     // },
 		selectCustomer() {
 			this.$store.commit(mutationTypes.SAVE_CHECKOUT_CART, this.cart)
-			this.$emit('selectCustomer')
+			this.$router.push({name: 'add_sale', params: {origin: 'cart'}})
 		},
 	},
 	computed: {
@@ -118,8 +120,10 @@ export default {
 			this.cart = unpacked_cart
 		}
 
-    this.$store.commit(mutationTypes.SET_NAVIGATION, 21)
-  }
+  },
+	beforeMount() {
+    this.$store.commit(mutationTypes.SET_HEADER_SETTINGS, 21)
+	}
 }
 </script>
 

@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <Header @add-button="addButton"><h3 @click="back" class="close-popup">Add Product</h3></Header>
+    <Header v-if="from_inventory" back_to='inventory' @add-button="addButton"></Header>
+    <Header v-else back_to='product details' @add-button="addButton"></Header>
     <div>
       <div v-if="!product_to_edit.id" id="add-product-modal"  ref="close-product-modal" title="BootstrapVue">
         <div class="product-body-wrapper nav-margin-top">
@@ -79,7 +80,7 @@ import {
   createProduct,
   updateProduct,
 } from '@/services/apiServices'
-import { SET_NAVIGATION } from "@/store/mutationTypes"
+import { SET_HEADER_SETTINGS } from "@/store/mutationTypes"
 
 export default {
   name: 'AddOrEditProduct',
@@ -163,8 +164,9 @@ export default {
     this.edit_product.product_name = this.product_to_edit.product_name
     this.edit_product.price = this.product_to_edit.price
     this.edit_product.description = this.product_to_edit.description
-
-    this.$store.commit(SET_NAVIGATION, 11)
+  },
+  beforeMount() {
+    this.$store.commit(SET_HEADER_SETTINGS, 11)
   }
 }
 </script>

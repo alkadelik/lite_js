@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <div class="form">
+    <Header back_to='cart' @add-button="addButton"></Header><!-- specifically back to cart, not customer select -->
+    <div class="form nav-margin-top">
       <div class="form-group">
         <label for="your-email">Enter deliver fee if any</label>
         <input  v-model="shipping" class="form-control">
@@ -48,8 +49,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { SET_NAVIGATION } from '@/store/mutationTypes'
-
+import { SET_HEADER_SETTINGS } from '@/store/mutationTypes'
+import Header from "../components/Header"
 import {
 	saveOrder,
 	saveOrderItems,
@@ -57,6 +58,9 @@ import {
 
 export default {
 	name: 'CheckoutView',
+  components: {
+    Header,
+  },
 	data: () => {
 		return {
 			has_customer: false,
@@ -190,7 +194,7 @@ export default {
 	},
 	mounted() {
 		this.customer_id != 0 ? this.has_customer = true : ''
-    this.$store.commit(SET_NAVIGATION, 22)
+    this.$store.commit(SET_HEADER_SETTINGS, 22)
   }
 }
 </script>

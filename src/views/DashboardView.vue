@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="container nav-margin-top">
 		<Header pageTitle="Dashboard" :userProfile="true"></Header>
 		<section id="dashboard">
       <h3>{{ store.store_name }}</h3>

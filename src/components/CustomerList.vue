@@ -1,6 +1,7 @@
 <template>
 	<div id="select-customer-modal" title="BootstrapVue">
-    <Header @add-button="addButton"><h3 @click="back" class="close-popup">Add Product</h3></Header>
+    <Header v-if="from_cart" back_to="cart" @add-button="addButton"></Header><!-- no need to go back when in Customers menu -->
+    <Header v-else @add-button="addButton"></Header>
 		<div class="select-customer-body-wrapper">
 			<div class="product-body">
 				<p class="all-products">{{ customerCount }} customer<span v-if="customerCount > 1">s</span></p>
@@ -35,7 +36,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { SAVE_SELECTED_CUSTOMER } from '@/store/mutationTypes'
+import * as mutationTypes from '@/store/mutationTypes'
 import Header from "../components/Header";
 export default {
 	name: 'CustomerList',
@@ -58,12 +59,12 @@ export default {
       this.$router.push({name: 'add_customer', params: {origin: this.origin}})
 		},
 		checkout() {
-      this.$store.commit(SAVE_SELECTED_CUSTOMER, this.customer_id)
-			this.$emit('checkout')
+      this.$store.commit(mutationTypes.SAVE_SELECTED_CUSTOMER, this.customer_id)
+			this.$router.push({name: 'checkout'})
 		},
 		selectFunction(id) {
 			console.log(this.displayNextBtn)
-			this.displayNextBtn ? this.toggleSelectedCustomer(id) : this.$router.push({name: 'customer_details'})
+			this.displayNextBtn ? this.toggleSelectedCustomer(id) : this.$router.push({name: 'customer_details'}) // not working
 		},
     toggleSelectedCustomer(id) {
 			// toggle only if coming from sales, otherwise, view customer details
@@ -93,6 +94,9 @@ export default {
 			return this.position.display_next_button
 		},
 	},
+	beforeMount() {
+		this.$store.commit(mutationTypes.SET_HEADER_SETTINGS, 32)
+	}
 }
 </script>
 
