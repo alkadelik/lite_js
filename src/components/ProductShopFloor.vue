@@ -27,19 +27,19 @@ export default {
 	name: 'SalesInventory',
 	data() {
     return {
-      temp_cart: [],
+      cart_map: [],
     }
   },
   methods: {
     toggleProductInCart(id) {
-      // vue is running my scripts twice thus immediately an item is added to temp_cart,
+      // vue is running my scripts twice thus immediately an item is added to cart_map,
       // it is immediately removed on the next check thus I need to write my code differently
       // or only add to cart for now (so it's not actually toggling)
-      let index = this.temp_cart.indexOf(id)
-      index == -1 ? this.temp_cart.push(id) : '' // this.temp_cart.splice(index, 1) 
+      let index = this.cart_map.indexOf(id)
+      index == -1 ? this.cart_map.push(id) : '' // this.cart_map.splice(index, 1) 
     },
     goToCart() {
-      this.$store.commit(mutationTypes.SAVE_CART, this.temp_cart)
+      this.$store.commit(mutationTypes.SAVE_CART_MAP, this.cart_map)
       this.$emit('openCart')
     }
   },

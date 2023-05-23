@@ -53,11 +53,14 @@ export default {
   [mutationTypes.SAVE_STORE](state, data) {
     state.store = data;
   },
-  [mutationTypes.SAVE_CART](state, data) {
-    state.cart = data;
+  [mutationTypes.SAVE_CART_MAP](state, data) { // formerly SAVE_CART
+    state.cart_map = data; // formerly cart
   },
-  [mutationTypes.SAVE_CART_OBJECTS](state, data) {
-    state.cart_objects = data;
+  [mutationTypes.SAVE_CART_MAP](state, data) {
+    state.cart_map = data;
+  },
+  [mutationTypes.SAVE_CHECKOUT_CART](state, data) {
+    state.cart_checkout = data;
   },
   [mutationTypes.SAVE_STORE_CUSTOMERS](state, data) {
     state.customers = data;
@@ -91,6 +94,9 @@ export default {
   },
   [mutationTypes.SET_FILTER_OPTION](state, data) {
     state.filter_option = data;
+  },
+  [mutationTypes.SAVE_UNPACKED_CART](state, data) {
+    state.cart_unpacked = data;
   },
   [mutationTypes.UNSAVED_CHANGE](state, data) {
     state.unsaved_change = data;

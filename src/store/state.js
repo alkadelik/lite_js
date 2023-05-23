@@ -1,7 +1,8 @@
 export default {
   account_id: null,
-  cart: [],
-  cart_objects: [],
+  cart_map: [], // formerly cart
+  cart_unpacked: [],
+  cart_checkout: [],
   customers: [],
   checkout_customer: {},
   component_settings: {

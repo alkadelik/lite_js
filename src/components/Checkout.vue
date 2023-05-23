@@ -79,7 +79,7 @@ export default {
       // var customer_id = '0000' // 0 for anonymous
       var month = (today.getMonth() + 1).toString(); // cause month is 0 indexed
       var day = today.getDate().toString();
-      var cart_count = this.cart.length.toString();
+      var cart_count = this.cart.length.toString(); // unique items (products) or absolute number of items? I go for absolute
       var hour = today.getHours().toString();
       var minute = today.getMinutes().toString();
       var second = today.getSeconds().toString();
@@ -160,8 +160,8 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			cart: 'getCartItems',
-			cart_objects: 'getCartObjects',
+			cart: 'getCartMap',
+			cart_objects: 'getCheckoutCart',
 			customer_id: 'getCheckoutCustomer',
 			store: 'getStore',
 		}),
@@ -171,11 +171,12 @@ export default {
         order_item.index = i + 1;
         order_item.order = this.orderID;
         order_item.product = item.id;
+        order_item.price_sold = item.price; // ideally should be a new price if this was changed
         order_item.selected_option1 = item.selected_option;
         order_item.selected_option2 = item.selected_option2;
         order_item.qty = item.count;
         order_item.productid = item.id;
-        order_item.sub_total = Number(item.price * 1); // this should be item.count
+        order_item.sub_total = Number(item.price * item.count); // use new price if discount or manually changed
         order_item.image_url = item.product_image;
         order_item.has_feedback = item.has_feedback;
         return order_item;

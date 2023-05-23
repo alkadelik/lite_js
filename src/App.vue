@@ -27,8 +27,8 @@ export default {
       this.$store.commit(mutationTypes.LOGGED_IN, false);
     }
   },
-  beforeMount() {
-    store.commit(mutationTypes.INITIALISE)
+  beforeCreate() {
+    // store.commit(mutationTypes.INITIALISE) // need to find the appropriate place to put this that won't affect login/authentication, and gettin the right store
   }
 }
 </script>

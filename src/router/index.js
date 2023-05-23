@@ -5,16 +5,17 @@ import CustomerAdd from '../views/CustomerAdd.vue'
 import CustomerDetails from '../views/CustomerDetails.vue'
 import CustomersView from '../views/CustomersView.vue'
 import DashboardView from '../views/DashboardView.vue'
+import IndexPage from '../views/IndexPage.vue'
 import SalesView from '../views/SalesView.vue'
 import ProductDetails from '../views/ProductDetails.vue'
 import ProductsView from '../views/ProductsView.vue'
 
 const routes = [
-  // {
-  //   path: '/',
-  //   name: 'home',
-  //   component: HomeView
-  // },
+  {
+    path: '/',
+    name: 'index',
+    component: IndexPage
+  },
   {
     path: '/about',
     name: 'about',

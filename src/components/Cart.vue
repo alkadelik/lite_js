@@ -12,14 +12,15 @@
 			</div>
 			<div class="qty">
 				<span class="dark">{{ item.variant_1 }}, {{ item.variant_2 }}</span>
+				<!-- <Variants :count="item.count" :id="item.id"></Variants> -->
 				<div class="counter">
-					<div class="counter-button" @click="decrease">
+					<div class="counter-button" @click="decrease(i)">
 						<img src="../assets/images/icons/counter-minus-icon.svg" alt="">
 					</div>
 					<div class="number">
-						<p>{{ count }}</p>
+						<p>{{ item.count }}</p>
 					</div>
-					<div class="counter-button" @click="increase">
+					<div class="counter-button" @click="increase(i)">
 						<img src="../assets/images/icons/counter-plus-icon.svg" alt="">
 					</div>
 				</div>
@@ -52,48 +53,60 @@
 <script>
 import { mapGetters } from 'vuex';
 import * as mutationTypes from '@/store/mutationTypes'
+// import Variants from './Variants.vue';
 
 export default {
 	name: 'CartComponent',
+	components: {
+		// Variants,
+	},
 	data: () => ({
 		cart: [],
-		count: 0,
 	}),
 	methods: {
-		increase() {
-			this.count ++
+		decrease(i) {
+			let product = this.cart[i]
+			product.count--		
 		},
-		decrease() {
-			this.count --
+		increase(i) {
+			let product = this.cart[i]
+			product.count++
 		},
+    // removeFromCart(i) {
+    //   // Deletes all instances of a product while viewing cart
+    //   this.cart.splice(i, 1)
+    //   this.$store.commit(mutationTypes.SAVE_CART, this.cart);
+    // },
 		selectCustomer() {
-			this.$store.commit(mutationTypes.SAVE_CART_OBJECTS, this.cart)
+			this.$store.commit(mutationTypes.SAVE_CHECKOUT_CART, this.cart)
 			this.$emit('selectCustomer')
 		},
 	},
 	computed: {
 		...mapGetters({
-			cart_items: 'getCartItems',
-			inventory: 'getInventory'
+			cart_map: 'getCartMap',
+			inventory: 'getInventory',
+			unpacked_cart: 'getUnpackedCart',
 		}),
 	},
 	mounted() {
-		if (this.cart_items.length > 0) {
-			let cart_array = []
+		if (this.cart_map.length > 0) {
+			let unpacked_cart = []
 			let inventory = this.inventory
-			// const basket = this.cart_items.map(function(item_id){
-			this.cart_items.map(function(item_id){
+			// const basket = this.cart_map.map(function(item_id){
+			this.cart_map.map(item_id => {
 				let obj = inventory.find(item => item.id == item_id)
 
-				obj.count = 1
-				cart_array.push(obj) // check that these are independent objects not references
+				obj.count > 0 ? '' : obj.count = 1 // doing this in case cart is coming from local storage and already has count
+				unpacked_cart.push(obj) // check that these are independent objects not references
 				
 				// let new_obj = Object.create(obj)
 				// new_obj.count = 1
 				// cart_array.push(new_obj) // check that these are independent objects not references
 			})
 			// console.log('basket is', basket) // why is const basket not working?
-			this.cart = cart_array
+			this.$store.commit(mutationTypes.SAVE_UNPACKED_CART, unpacked_cart)
+			this.cart = unpacked_cart
 		}
 
     this.$store.commit(mutationTypes.SET_NAVIGATION, 21)

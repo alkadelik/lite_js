@@ -1,6 +1,6 @@
 export default {
-  getCartItems: (state) => state.cart,
-  getCartObjects: (state) => state.cart_objects,
+  getCartMap: (state) => state.cart_map,
+  getCheckoutCart: (state) => state.cart_checkout,
   getCheckoutCustomer: (state) => state.checkout_customer,
   getCustomers: (state) => state.customers,
   getEmail: (state) => state.unregistered_email,
@@ -20,5 +20,6 @@ export default {
   getState: (state) => state,
   getStore: (state) => state.store,
   getStoreSlug: (state) => state.store_slug,
+  getUnpackedCart: (state) => state.cart_unpacked,
   getUnsavedChange: (state) => state.unsaved_change,
 }
