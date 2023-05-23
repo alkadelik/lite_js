@@ -66,7 +66,15 @@ export default {
 	methods: {
 		decrease(i) {
 			let product = this.cart[i]
-			product.count--		
+			product.count--
+			
+			// if (this.checkStock(product)) {
+		        //   product.count++
+		        //   product.subTotal = product.discountAmt
+		        //     ? (product.count * (product.price - product.discountAmt))
+		        //     : (product.count * product.price)
+		        //   this.$store.commit(mutationTypes.SAVE_CART, this.cart)
+		        // }	
 		},
 		increase(i) {
 			let product = this.cart[i]
