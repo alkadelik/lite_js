@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Header back_to='cart' @add-button="addButton"></Header><!-- specifically back to cart, not customer select -->
+    <Header back_to='select buyer' @back="back"></Header><!-- specifically back to cart, not customer select -->
     <div class="form nav-margin-top">
       <div class="form-group">
         <label for="your-email">Enter deliver fee if any</label>
@@ -71,6 +71,9 @@ export default {
 		}
 	},
 	methods: {
+    back() {
+      this.$router.go(-1)
+    },
 		createOrderID() {
       var ref_type ='2'; // '1' for purchase by merchant's customer
       var rand_int = Math.floor(Math.random() * 9999) + 1000;

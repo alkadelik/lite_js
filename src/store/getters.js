@@ -3,6 +3,7 @@ export default {
   getCheckoutCart: (state) => state.cart_checkout,
   getCheckoutCustomer: (state) => state.checkout_customer,
   getCustomers: (state) => state.customers,
+  getCustomerToEdit: (state) => state.customer_to_edit,
   getEmail: (state) => state.unregistered_email,
   getEmailStatus: (state) => state.email_verified,
   getFilterOption: (state) => state.filter_option,

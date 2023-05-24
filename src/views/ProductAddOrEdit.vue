@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <Header v-if="from_inventory" back_to='inventory' @add-button="addButton"></Header>
-    <Header v-else back_to='product details' @add-button="addButton"></Header>
+    <Header v-if="!product_to_edit.id" back_to='inventory' @back="back"></Header>
+    <Header v-else back_to='product details' @back="back"></Header>
     <div>
       <div v-if="!product_to_edit.id" id="add-product-modal"  ref="close-product-modal" title="BootstrapVue">
         <div class="product-body-wrapper nav-margin-top">
@@ -103,6 +103,13 @@ export default {
     }
   },
   methods:{
+    back() {
+      if(this.product_to_edit.id) {
+        this.$router.go(-1)
+      } else {
+        this.$router.push({name: 'inventory'})
+      }
+    },
     createNewProduct(new_product) { // creates new product with the image only
       createProduct(new_product)
           .then((res) => {

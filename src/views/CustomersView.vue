@@ -58,7 +58,7 @@ export default {
       this.no_customer = false
     }
     this.$store.commit(mutationTypes.SET_NEXT_BTN_DISPLAY, false)
-    this.$store.commit(mutationTypes.SET_BACK_BTN_DISPLAY, null) // this should depend on if coming from sales or customer direct
+    this.$store.commit(mutationTypes.SET_CUSTOMER_TO_EDIT, {})
   }
 }
 </script>

@@ -4,6 +4,7 @@ export default {
   cart_unpacked: [],
   cart_checkout: [],
   customers: [],
+  customer_to_edit: {},
   checkout_customer: {},
   component_settings: {
     header_settings: null, // used

@@ -1,6 +1,6 @@
 <template>
 	<div id="select-customer-modal" title="BootstrapVue">
-    <Header v-if="from_cart" back_to="cart" @add-button="addButton"></Header><!-- no need to go back when in Customers menu -->
+    <Header v-if="displayNextBtn" back_to="cart" @add-button="addButton" @back="back"></Header>
     <Header v-else @add-button="addButton"></Header>
 		<div class="select-customer-body-wrapper">
 			<div class="product-body">
@@ -13,7 +13,7 @@
 				<div 
 					class="select-customer-wrapper"
 					v-for="customer, i in customers" :key="i" 
-					@click="selectFunction(customer.id)"
+					@click="selectFunction(customer.id, customer)"
 				>
 					<div class="list_style_1" :class="{ active: customer_id == customer.id}">
 						<div style="display: flex">
@@ -58,21 +58,25 @@ export default {
 		addCustomer() {
       this.$router.push({name: 'add_customer', params: {origin: this.origin}})
 		},
+		back() {
+			this.$router.go(-1)
+		},
 		checkout() {
       this.$store.commit(mutationTypes.SAVE_SELECTED_CUSTOMER, this.customer_id)
 			this.$router.push({name: 'checkout'})
 		},
-		selectFunction(id) {
-			console.log(this.displayNextBtn)
-			this.displayNextBtn ? this.toggleSelectedCustomer(id) : this.$router.push({name: 'customer_details'}) // not working
+		selectFunction(id, customer) {
+			if(this.displayNextBtn) {
+				this.toggleSelectedCustomer(id)
+			} else {
+				this.$store.commit(mutationTypes.SET_CUSTOMER_TO_EDIT, customer)
+				this.$router.push({name: 'customer_details'})
+			}
 		},
     toggleSelectedCustomer(id) {
-			// toggle only if coming from sales, otherwise, view customer details
 			switch(this.customer_id) {
 				case 0:
 					this.customer_id = id
-					// add/remove styling class (visual select indicator)
-					// block or unblock from moving to next step (payment / adding sale)
 					break;
 				case id:
 					this.customer_id = 0
@@ -95,9 +99,17 @@ export default {
 		},
 	},
 	beforeMount() {
-		this.$store.commit(mutationTypes.SET_HEADER_SETTINGS, 32)
+		this.$store.commit(mutationTypes.SET_HEADER_SETTINGS, 32) // this shows the back button even in Customer menu. Should distinguish between from Sale and Customer menu
 	}
 }
+  /* 
+  DOCUMENTATION
+	methods:
+	selectFunction(id) {
+		Displaying the button to go to the next step means that the merchant is in the process of adding a customer to a sale i.e. the next step is the checkout step. Otherwise, this function directs the merchant to view customer details from within the Customer menu.
+	}
+
+  */
 </script>
 
 <style scoped>

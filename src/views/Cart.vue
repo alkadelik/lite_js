@@ -1,6 +1,6 @@
 <template>
 	<div class="nav-margin-top">
-		<Header back_to='select product' @add-button="addButton"></Header>
+		<Header back_to='select product' @back="back"></Header>
 	</div>
 	<div class="cart_item" v-for="item, i in cart" :key="i">
 		<div class="img_wrapper">
@@ -67,6 +67,9 @@ export default {
 		cart: [],
 	}),
 	methods: {
+		back() {
+			this.$router.replace('add_sale/_') // ideally have the items still selected
+		},
 		decrease(i) {
 			let product = this.cart[i]
 			product.count--
@@ -82,7 +85,6 @@ export default {
 			let product = this.cart[i]
 			product.count++
 		},
-		
     // removeFromCart(i) {
     //   // Deletes all instances of a product while viewing cart
     //   this.cart.splice(i, 1)
@@ -90,7 +92,7 @@ export default {
     // },
 		selectCustomer() {
 			this.$store.commit(mutationTypes.SAVE_CHECKOUT_CART, this.cart)
-			this.$router.push({name: 'add_sale', params: {origin: 'cart'}})
+			this.$router.push({name: 'add_sale', params: {origin: 'cart'}}) // goes to customer from add_sale
 		},
 	},
 	computed: {

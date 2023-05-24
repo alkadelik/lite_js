@@ -1,5 +1,5 @@
 <template>
-    <Header back_to='sales' @add-button="addButton"></Header>
+    <Header back_to='sales' @back="back"></Header>
     <div id="sales" class="nav-margin-top">
       <div>
         <Products v-if="show_sales_inventory" @open-cart="openCart"></Products>
@@ -40,6 +40,9 @@ export default {
     addButton() {
       this.showInventory()
     },
+    back() {
+      this.$router.replace({name: 'sales'}) // you still want the selected products
+    },
     checkout() {
       this.show_customers = false
       this.show_checkout = true
@@ -55,6 +58,7 @@ export default {
     },
   },
   mounted() {
+    // check if there are any items selected - in case back button pressed
     this.$store.commit(SET_NEXT_BTN_DISPLAY, true)
 
     if (this.$route.params.origin == 'new_customer') {

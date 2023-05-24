@@ -25,6 +25,7 @@ import { mapGetters } from "vuex"
 import Header from "../components/Header"
 import ProductList from "@/components/ProductList"
 import { SET_PRODUCT_TO_BE_EDITTED } from "@/store/mutationTypes";
+import { SET_HEADER_SETTINGS } from "@/store/mutationTypes";
 
 export default {
   name: 'InventoryView',
@@ -46,11 +47,11 @@ export default {
     addProduct(){
       this.$router.push({name: 'add_product'})
     },
-    showDetails(product) {
-      this.product = product
-      this.show_products = false
-      this.view_details = true
-    }
+    // showDetails(product) {
+    //   this.product = product
+    //   this.show_products = false
+    //   this.view_details = true
+    // }
   },
 	computed: {
 		...mapGetters({
@@ -60,6 +61,9 @@ export default {
   mounted() {
     this.has_product == true ? this.no_product = false : ''
     this.$store.commit(SET_PRODUCT_TO_BE_EDITTED, {})
+  },
+  beforeMount() {
+    this.$store.commit(SET_HEADER_SETTINGS, 1)
   }
 }
 </script>

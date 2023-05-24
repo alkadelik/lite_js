@@ -16,7 +16,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-
+import { SET_HEADER_SETTINGS } from '@/store/mutationTypes'
 import Header from "../components/Header";
 import Orders from '@/components/Orders'
 
@@ -46,6 +46,9 @@ mounted() {
   if (this.has_sale == true) {
     this.no_sale = false
   }
+},
+beforeMount() {
+  this.$store.commit(SET_HEADER_SETTINGS, 2)
 }
 }
 </script>

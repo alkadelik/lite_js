@@ -5,7 +5,6 @@
         <div>
           <h3 v-if="show_back_button" @click="back" class="close-popup">{{ back_to }}</h3>
         </div>
-        <!--<div></div>--><!-- do not remove. used to justify-content: space-between -->
         <div class="">
           <div class="user-header-wrapper" v-if="vegan === true">
             <div class="bell-icon">
@@ -99,22 +98,6 @@ export default {
   Computed:
   the switch case controls the display of the header and it's constituent elements across the app.
   Every view and component where the header is imported emits an index to let the Header know what to display
-
-  Key
-  0 : Dashboard
-  10: View produt detail
-  11: (Edit product) - affects back button: Inventory -> Detail -> Edit | Inventory -> Add
-  12: Add product
-  20: Add sales (product list)
-  21: Cart 
-  22: Checkout
-  30: View customer details
-  31: Add customer
-  32: Edit customer - affects back button: Customer -> Detail -> Edit | Customer -> Add
-  1 : Inventory
-  2 : Sales
-  3 : Customer
-
   */
 </script>
   

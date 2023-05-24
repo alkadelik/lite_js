@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Header back_to='inventory' @add-button="addButton"></Header>
+    <Header back_to='inventory' @back="back"></Header>
     <div class="product-body nav-margin-top">
       <div class="img-wrapper">
         <!-- <img src="../assets/images/detail-products-image-1.png" alt=""> -->
@@ -74,6 +74,9 @@ export default {
     }
   },
   methods:{
+    back() {
+      this.$router.go(-1)
+    },
     editProduct() {
       this.$router.push({name: 'add_product'})
     },

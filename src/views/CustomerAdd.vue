@@ -1,8 +1,8 @@
 <template>
 	<div class="container">
-    <Header v-if="from_customer_menu" back_to='customer list' @add-button="addButton"></Header>
-    <Header v-else back_to='customer list from sales' @add-button="addButton"></Header>
-		<div id="add-new-customer-modal" class="create_customer">
+    <Header v-if="customer_to_edit.id" back_to='customer details' @back="back"></Header>
+    <Header v-else back_to='customer list' @back="back"></Header>
+		<div v-if="!customer_to_edit" id="add-new-customer-modal" class="create_customer">
 			<div class="add-customer-body-wrapper">
 				<div class="product-header">
 					<h3 @click="$bvModal.hide('add-new-customer-modal')" class="close-popup">Add Customer</h3>
@@ -30,7 +30,7 @@
 						</div>
 						<div class="form-group">
 							<label for="your-email">Address</label>
-							<input v-model="customer.address" id="your-address" class="form-control">
+							<input v-model="customer.line1" id="your-address" class="form-control">
 						</div>
 						<!-- <div class="form-group">
 							<label for="your-email">Local government area</label>
@@ -40,17 +40,62 @@
 							<label for="your-phone">Phone number</label>
 							<input v-model="customer.phone" type="tel" id="your-phone" class="form-control">
 						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div v-else id="add-new-customer-modal" class="create_customer">
+			<div class="add-customer-body-wrapper">
+				<div class="product-header">
+					<h3 @click="$bvModal.hide('add-new-customer-modal')" class="close-popup">Add Customer</h3>
+				</div>
+				<div class="product-body">
+					<h2 class="black">Enter customer details</h2>
+					<div class="form">
+						<div class="row">
+							<div class="col-6">
+								<div class="form-group">
+									<label for="first-name">First Name</label>
+									<input v-model="edit.first_name" id="first-name" class="form-control">
+								</div>
+							</div>
+							<div class="col-6">
+								<div class="form-group">
+									<label for="last-name">Last Name</label>
+									<input v-model="edit.last_name" id="last-name" class="form-control">
+								</div>
+							</div>
+						</div>
 						<div class="form-group">
-							<button v-if="from == 'sales'" class="btn-style" @click="checkout">Go to checkout</button>
-							<button v-else class="btn-style" @click="createCustomer">Save customer</button>
+							<label for="your-email">Email Address</label>
+							<input v-model="edit.email" type="email" id="your-email" class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="your-email">Address</label>
+							<input v-model="edit.line1" id="your-address" class="form-control">
+						</div>
+						<!-- <div class="form-group">
+							<label for="your-email">Local government area</label>
+							<input v-model="edit.address" id="your-address" class="form-control">
+						</div> -->
+						<div class="form-group">
+							<label for="your-phone">Phone number</label>
+							<input v-model="edit.phone" type="tel" id="your-phone" class="form-control">
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+
+		<div class="form-group">
+			<button v-if="from == 'sales'" class="btn-style" @click="checkout">Go to checkout</button>
+			<button v-else class="btn-style" @click="createCustomer">Save customer</button>
+		</div>
 	</div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import { saveCustomer } from '@/services/apiServices'
 import * as mutationTypes from '@/store/mutationTypes'
 import Header from "../components/Header"
@@ -66,13 +111,29 @@ export default {
 			'last_name': '',
 			'email': '',
 			'phone': '',
-			'address': '',
+			'line1': '',
+			'city': '',
+		},
+		edit: {
+			'first_name': '',
+			'last_name': '',
+			'email': '',
+			'phone': '',
+			'line1': '',
 			'city': '',
 		},
 		new_customer_id: 0,
 		show_checkout: false,
 	}),
 	methods: {
+    back() {
+			this.customer_to_edit.id ? this.$router.go(-1) : this.$router.push({name: 'customers'})
+      // if(this.customer_to_edit.id) {
+      //   this.$router.go(-1)
+      // } else {
+      //   this.$router.push({name: 'customers'})
+			// }
+    },
 		checkout() {
 			this.createCustomer()
       this.$store.commit(mutationTypes.SAVE_SELECTED_CUSTOMER, this.new_customer_id)
@@ -90,10 +151,21 @@ export default {
 		}
 	},
 	computed: {
+		...mapGetters({
+			customer_to_edit: 'getCustomerToEdit'
+		}),
 		from() {
 			return this.$route.params.origin
 		}
   },
+	mounted() {
+		this.edit.first_name = this.customer_to_edit.first_name
+		this.edit.last_name = this.customer_to_edit.last_name
+		this.edit.phone = this.customer_to_edit.phone
+		this.edit.email = this.customer_to_edit.email
+		this.edit.address = this.customer_to_edit.adress
+		this.edit.city = this.customer_to_edit.city
+	},
 	beforeMount() {
     this.$store.commit(mutationTypes.SET_HEADER_SETTINGS, 31)
   }
