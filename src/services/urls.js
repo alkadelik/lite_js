@@ -26,7 +26,7 @@ export const transCodeUrl = `https://api.paystack.co/transferrecipient`;
 
 // Customer
 export const saveCustomerUrl = `${prefix}api/account/customer/create/`;
-// export const updateCustomerUrl = `${prefix}api/account/customer/`;
+export const updateCustomerUrl = `${prefix}api/account/customer/`;
 
 // Products
 export const createImageUrl = `${prefix}api/inventory/product/image/create/`;
