@@ -13,6 +13,7 @@
 import {
 	apiLogin,
 } from '@/services/apiServices'
+import axios from 'axios'
 import * as mutationTypes from '@/store/mutationTypes'
 
 export default {
@@ -29,6 +30,7 @@ export default {
 			apiLogin(data)
 			.then((res) => {
 				localStorage.setItem("leyyow_token", res.data.token)
+				axios.defaults.headers.common["Authorization"] = `Token ${res.data.token}`
 
 				let store = res.data.store
 

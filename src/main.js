@@ -8,7 +8,7 @@ import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
 
-let token = window.localStorage.getItem("leyyow_token");
+let token = localStorage.getItem("leyyow_token");
 if (token) {
   axios.defaults.headers.common["Authorization"] = `Token ${token}`;
 }

@@ -5,13 +5,13 @@
         <div>
           <h3 v-if="show_back_button" @click="back" class="close-popup">{{ back_to }}</h3>
         </div>
-        <div class="">
-          <div class="user-header-wrapper" v-if="vegan === true">
+        <div class="" v-if="show_menu">
+          <div class="user-header-wrapper">
             <div class="bell-icon">
-              <img src="../assets/images/icons/notification-bell-icon.svg" alt="bell icon">
+              <!-- <img src="../assets/images/icons/notification-bell-icon.svg" alt="bell icon"> -->
             </div>
             <label class="author-profile">
-              <img src="../assets/images/header-author-image.png" alt="Author Image">
+              <!-- <img src="../assets/images/header-author-image.png" alt="Author Image"> -->
             </label>
             <div class="form">
               <select id="authorLogin">
@@ -40,7 +40,7 @@ export default {
 		return {
       show_add_button: true,
       show_back_button: true,
-      vegan: false,
+      show_menu: false,
 		}
 	},
 	methods:{
@@ -50,12 +50,6 @@ export default {
     back() {
       this.$emit('back')
     },
-    logout() {
-      localStorage.clear()
-      // you don't want to necessarily clear everything on logout. E.g the cart. Maybe store this in the server in future
-      // this.$store.commit(mutationTypes.LOGGED_IN, false) // mutate logout
-      this.$router.push('/login') // or some other page that has helhpful info
-    }
 	},
   computed: {
 		...mapGetters({
@@ -67,6 +61,7 @@ export default {
       case 0: // Dashboard
         this.show_add_button=false
         this.show_back_button=false
+        this.show_menu=true
         break;
       case 10: // View product details | product detail has issues
       case 11: // Edit product
@@ -83,9 +78,9 @@ export default {
         this.show_add_button=true
         this.show_back_button=true
         break;
-      case 1:
-      case 2:
-      case 3:
+      case 1: // Inventory
+      case 2: // Sales
+      case 3: // Customers
         this.show_add_button=true
         this.show_back_button=false
         break;

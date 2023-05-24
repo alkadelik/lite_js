@@ -1,8 +1,15 @@
 <template>
-	<div class="container nav-margin-top">
-		<Header pageTitle="Dashboard" :userProfile="true"></Header>
-		<section id="dashboard">
+	<div class="container dashboard-top-margin">
+    <div class="header">
       <h3>{{ store.store_name }}</h3>
+      <div class="form">
+        <select id="authorLogin" v-model="menu_option" @change="menuOption">
+          <option value="logout">Logout</option>
+          <!-- <option value="Signup">Signup</option> -->
+        </select>
+      </div>
+    </div>
+		<section id="dashboard">
 			<div class="container">
 				<div class="welcome">
 					<h3>Good {{ timeOfDay }}</h3>
@@ -12,7 +19,6 @@
 				<div class="report-wrapper">
 					<div class="report-card" v-for="data, i in metrics" :key="i">
 						<div class="img-wrapper">
-							<!-- <img :src=data.icon alt="Total Revenue"> -->
               <component :is="data.icon" />
 						</div>
 						<div class="content-wrapper">
@@ -79,7 +85,6 @@ import Profile from "@/components/icons/Profile"
 import Transaction from "@/components/icons/Transaction.vue"
 import Sale from "@/components/icons/Sale.vue"
 import Cart from "@/components/icons/Cart.vue"
-import Header from "@/components/Header"
 // import { Line as LineChartGenerator } from 'vue-chartjs'
 // import { Line as LineChartGenerator } from 'vue-chartjs/legacy'
 import {
@@ -106,7 +111,6 @@ ChartJS.register(
 export default {
   name: 'DashboardView',
   components: {
-    Header,
     Arrows,
     Profile,
     Cart,
@@ -230,11 +234,27 @@ export default {
         },
 
       },
+      menu_option: '',
       time_frame: 'Today',
       period: 1, // time frame for dashboard: week, month, year, etc.
     }
   },
 	methods: {
+    logout() {
+      window.localStorage.clear()
+      // you don't want to necessarily clear everything on logout. E.g the cart. Maybe store this in the server in future
+      // this.$store.commit(mutationTypes.LOGGED_IN, false) // mutate logout
+      this.$router.push('/login') // or some other page that has helhpful info
+    },
+    menuOption() {
+      switch(this.menu_option) {
+        case 'logout':
+          this.logout()
+          break;
+        // case _:
+        //   'logout' // current default
+      }
+    },
     updateMetrics() {
       fetchMetrics(this.period)
       .then((res) => {
@@ -295,11 +315,26 @@ export default {
     //     this.$store.commit(mutationTypes.EMAIL_VERIFIED, true);
     //   }
     // }
-	},
+	}
 }
 </script>
 
 <style scoped>
+.dashboard-top-margin {
+  margin-top: 120px;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  z-index: 2;
+}
 .welcome {
   text-align: left;
 }

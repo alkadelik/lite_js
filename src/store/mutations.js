@@ -5,10 +5,6 @@ export default {
     state.email_verified = data;
   },
   [mutationTypes.INITIALISE](state) {
-    // if(localStorage.getItem('leyyow_' + state.store_slug)) {
-    //   this.replaceState(
-    //     Object.assign(state, JSON.parse(localStorage.getItem('leyyow_' + state.store_slug)))
-    //   )
     if(localStorage.getItem('leyyow')) {
       this.replaceState(
         Object.assign(state, JSON.parse(localStorage.getItem('leyyow')))
@@ -18,10 +14,6 @@ export default {
   [mutationTypes.SAVE_ORDERS](state, data) {
     state.orders = data;
     state.orders.length > 0 ? state.has_sale = true : ''
-  },
-  [mutationTypes.LOGOUT]() {
-    // state.store = data;
-    // localStorage.removeItem("leyyow")
   },
   [mutationTypes.LOGGED_IN](state, data) {
     state.logged_in = data;
