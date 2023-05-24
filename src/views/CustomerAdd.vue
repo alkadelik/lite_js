@@ -148,7 +148,7 @@ export default {
 		editCustomer() {
 			updateCustomer(this.edit, this.customer_to_edit.id)
 			.then((res) => {
-				// this.$store.commit(mutationTypes.UPDATE_CUSTOMER, {'id': this.customer_to_edit.id, 'updated_customer': res.data})
+				this.$store.commit(mutationTypes.UPDATE_CUSTOMER, {'id': this.customer_to_edit.id, 'updated_customer': res.data})
 			})
 		}
 	},
