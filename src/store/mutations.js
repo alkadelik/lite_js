@@ -96,4 +96,8 @@ export default {
   [mutationTypes.UNSAVED_CHANGE](state, data) {
     state.unsaved_change = data;
   },
+  [mutationTypes.UPDATE_CUSTOMER](state, data) {
+    let customer = state.customers.find(customer => customer.id == data.id)
+    Object.assign(customer, data.updated_customer);
+  },
 }

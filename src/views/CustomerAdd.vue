@@ -140,7 +140,7 @@ export default {
 			saveCustomer(this.customer)
 			.then((res) => {
 				this.new_customer_id = res.data.customer.id
-				this.$store.commit(mutationTypes.SAVE_NEW_CUSTOMER, res.data.customer)
+				this.$store.commit(mutationTypes.SAVE_NEW_CUSTOMER, res.data.customer) // check why this is ...data.customer
 			})
 			// give success/failed feedback
 			// stay on if merchant wants to add another customer
@@ -148,9 +148,7 @@ export default {
 		editCustomer() {
 			updateCustomer(this.edit, this.customer_to_edit.id)
 			.then((res) => {
-				console.log(res.data)
-				// find customer in state and update
-				// this.$store.commit(mutationTypes.SAVE_NEW_CUSTOMER, res.data.customer)
+				// this.$store.commit(mutationTypes.UPDATE_CUSTOMER, {'id': this.customer_to_edit.id, 'updated_customer': res.data})
 			})
 		}
 	},
