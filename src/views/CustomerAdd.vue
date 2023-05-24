@@ -32,10 +32,6 @@
 							<label for="your-email">Address</label>
 							<input v-model="customer.line1" id="your-address" class="form-control">
 						</div>
-						<!-- <div class="form-group">
-							<label for="your-email">Local government area</label>
-							<input v-model="customer.address" id="your-address" class="form-control">
-						</div> -->
 						<div class="form-group">
 							<label for="your-phone">Phone number</label>
 							<input v-model="customer.phone" type="tel" id="your-phone" class="form-control">
@@ -75,10 +71,6 @@
 							<label for="your-email">Address</label>
 							<input v-model="edit.line1" id="your-address" class="form-control">
 						</div>
-						<!-- <div class="form-group">
-							<label for="your-email">Local government area</label>
-							<input v-model="edit.address" id="your-address" class="form-control">
-						</div> -->
 						<div class="form-group">
 							<label for="your-phone">Phone number</label>
 							<input v-model="edit.phone" type="tel" id="your-phone" class="form-control">
@@ -90,13 +82,17 @@
 
 		<div class="form-group">
 			<button v-if="from == 'sales'" class="btn-style" @click="checkout">Go to checkout</button>
-			<button v-else class="btn-style" @click="createCustomer">Save customer</button>
+			<button v-else-if="!customer_to_edit" class="btn-style" @click="createCustomer">Save customer</button>
+			<button v-else class="btn-style" @click="editCustomer">Update customer</button>
 		</div>
 	</div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import { saveCustomer } from '@/services/apiServices'
+import {
+	saveCustomer,
+	updateCustomer,
+} from '@/services/apiServices'
 import * as mutationTypes from '@/store/mutationTypes'
 import Header from "../components/Header"
 
@@ -148,6 +144,14 @@ export default {
 			})
 			// give success/failed feedback
 			// stay on if merchant wants to add another customer
+		},
+		editCustomer() {
+			updateCustomer(this.edit, this.customer_to_edit.id)
+			.then((res) => {
+				console.log(res.data)
+				// find customer in state and update
+				// this.$store.commit(mutationTypes.SAVE_NEW_CUSTOMER, res.data.customer)
+			})
 		}
 	},
 	computed: {
@@ -163,7 +167,7 @@ export default {
 		this.edit.last_name = this.customer_to_edit.last_name
 		this.edit.phone = this.customer_to_edit.phone
 		this.edit.email = this.customer_to_edit.email
-		this.edit.address = this.customer_to_edit.adress
+		this.edit.line1 = this.customer_to_edit.line1
 		this.edit.city = this.customer_to_edit.city
 	},
 	beforeMount() {

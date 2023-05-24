@@ -87,41 +87,15 @@ export default {
       var month = (today.getMonth() + 1).toString(); // cause month is 0 indexed
       var day = today.getDate().toString();
       var cart_count = this.cart.length.toString(); // unique items (products) or absolute number of items? I go for absolute
-      var hour = today.getHours().toString();
-      var minute = today.getMinutes().toString();
-      var second = today.getSeconds().toString();
-      if (hour.length == 1) {
-        hour = hour.padStart(1,"0")
-      }
-      if (minute.length == 1) {
-        minute = minute.padStart(1,"0")
-      }
-      if (second.length == 1) {
-        second = second.padStart(1,"0")
-      }
-      if (month.length == 1) {
-        // month = "0" + month;
-        month = month.padStart(1,"0")
-      }
-      if (day.length == 1) {
-        day = day.padStart(1,"0")
-      }
-      if (cart_count.length == 1) {
-        cart_count = cart_count.padStart(1,"0")
-      }
-      if (store_id.length == 1) {
-        // store_id = "000" + store_id;
-        store_id = store_id.padStart(3,"0")
-      }
-      if (store_id.length == 2) {
-        store_id = store_id.padStart(2,"0")
-      }
-      if (store_id.length == 3) {
-        store_id = store_id.padStart(1,"0")
-      }
-      // this.orderID = store_id + month + day + cart_count + hour + minute + customer_id + year
-      this.orderID =
-        ref_type + store_id + month + day + cart_count + year + rand_int;
+      // var hour = today.getHours().toString();
+
+      // hour = hour.padStart(2,"0")
+      month = month.padStart(2,"0")
+      day = day.padStart(2,"0")
+      cart_count = cart_count.padStart(2,"0")
+      store_id = store_id.padStart(4,"0")
+      // ref_type + store_id + year + month + day + cart_count // + nth purchase of the day | this.customer_id.padStart(3,"0")
+      this.orderID = ref_type + store_id + month + day + cart_count + year + rand_int
     },
     fulfillmentStatus(e) {
        this.fulfilled = e.target.value

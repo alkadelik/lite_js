@@ -91,4 +91,45 @@ const router = createRouter({
   routes
 })
 
+router.beforeEach((to) => {
+  let token = localStorage.getItem("leyyow_token")
+  if(!token && to.name !== 'login') {
+    return {name: 'login'}
+  }
+})
+// ---------
+
+// router.beforeEach((to, from, next) => {
+//   let token = localStorage.getItem("leyyow_token");
+
+//   let whitelist = [
+//     "/",
+//     "/register",
+//     "/login",
+//     "/forgot_password",
+//     "/set-new-password",
+//     "/set-new-password/",
+//     "/feedback/"
+//     // {name: "Home"},
+//   ];
+//   // whitelist.some(item => console.log(to.path.includes(item), item))
+//   if (whitelist.some(item => to.path.includes(item))) {
+//     if (token) {
+//       next({
+//         name: "dashboard",
+//       });
+//     } else {
+//       next();
+//     }
+//   } else {
+//     if (token) {
+//       next();
+//     } else {
+//       next({
+//         name: "login",
+//       });
+//     }
+//   }
+// });
+
 export default router

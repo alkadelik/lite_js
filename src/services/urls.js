@@ -26,6 +26,7 @@ export const transCodeUrl = `https://api.paystack.co/transferrecipient`;
 
 // Customer
 export const saveCustomerUrl = `${prefix}api/account/customer/create/`;
+// export const updateCustomerUrl = `${prefix}api/account/customer/`;
 
 // Products
 export const createImageUrl = `${prefix}api/inventory/product/image/create/`;
@@ -43,7 +44,6 @@ export const saveOrderUrl = `${prefix}api/inventory/order/create/`;
 export const saveOrderItemUrl = `${prefix}api/inventory/order_item/create/`;
 
 // Metrics
-// export const metricsUrl = `${prefix}order/metrics/`;
 export const metricsUrl = `${prefix}api/inventory/order/metrics/`;
 
 // Merchant payments

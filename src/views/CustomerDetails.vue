@@ -3,39 +3,47 @@
     <Header back_to='customer list' @add-button="addButton" @back="back"></Header>
     <div class="product-body nav-margin-top">
       <div class="img-wrapper">
-        <!-- <img src="../assets/images/detail-products-image-1.png" alt=""> -->
-        <!-- <img :src="'http://127.0.0.1:8000' + product.product_image" alt=""> -->
+        <img src="../assets/images/customer-detail-img.png" alt="">
+        <h3>{{ customer.first_name}} {{ customer.last_name }}</h3>
       </div>
       <div class="product-detail-wrapper">
         <hr>
         <div class="product-detail">
           <div class="row">
             <div class="col-3">
-              <span>Name</span>
+              <span>Email</span>
             </div>
             <div class="col-9">
-              <h3>{{ customer.first_name }} {{ customer.last_name }}</h3>
+              <p>{{ customer.email }}</p>
             </div>
           </div>
         </div>
         <hr>
+
         <div class="product-detail">
           <div class="row">
             <div class="col-6">
-              <span>Price</span>
+              <span>Address</span>
             </div>
             <div class="col-6">
-              <h3>&#8358;{{ customer.line1 }}</h3>
+              <p>{{ customer.line1 }}</p>
             </div>
           </div>
         </div>
+
         <hr>
+
         <div class="product-detail">
-          <div class="description">
-            <span>Description</span>
-            <p>{{ customer.phone }}</p>
+          <div class="row">
+            <div class="col-6">
+              <span>Phone</span>
+            </div>
+            <div class="col-6">
+              <p>{{ customer.phone }}</p>
+            </div>
           </div>
         </div>
+
         <hr>
       </div>
       <div class="product-btn">
@@ -76,14 +84,17 @@ export default {
 
 <style scoped>
 .img-wrapper {
-  width: 100%;
-  height: 186px;
-  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 }
 .img-wrapper img {
-  max-width: 100%;
+  width: 80px;
+  height: 80px;
+  border-radius: 80px;
+  margin: 0 auto 10px;
 }
+
 .row {
   display: flex;
   /* border-top: 0.5px solid blue; */

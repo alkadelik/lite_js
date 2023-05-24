@@ -236,14 +236,13 @@ export default {
       },
       menu_option: '',
       time_frame: 'Today',
-      period: 1, // time frame for dashboard: week, month, year, etc.
+      period: 1, // [1,2,3,4]:[today, week, month, year]
     }
   },
 	methods: {
     logout() {
-      window.localStorage.clear()
-      // you don't want to necessarily clear everything on logout. E.g the cart. Maybe store this in the server in future
-      // this.$store.commit(mutationTypes.LOGGED_IN, false) // mutate logout
+      localStorage.clear() // not really clearing all local items. maybe mutate store before logout
+      this.$store.commit(mutationTypes.LOGGED_IN, false) // maybe not clear everything E.g the cart. store in the server?
       this.$router.push('/login') // or some other page that has helhpful info
     },
     menuOption() {
@@ -251,8 +250,6 @@ export default {
         case 'logout':
           this.logout()
           break;
-        // case _:
-        //   'logout' // current default
       }
     },
     updateMetrics() {

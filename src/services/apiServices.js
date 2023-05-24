@@ -63,6 +63,13 @@ export const saveOrderItems = (data) => {
 		data
 	});
 }
+export const updateCustomer = (data, id) => {
+  return axios({
+    method: "patch",
+    url: `${urls.updateCustomerUrl}${id}/`,
+    data,
+  });
+};
 export const updateProduct = (data, id) => {
   return axios({
     method: "patch",
