@@ -2,88 +2,89 @@
 	<div class="container">
     <Header v-if="customer_to_edit.id" back_to='customer details' @back="back"></Header>
     <Header v-else back_to='customer list' @back="back"></Header>
-		<div v-if="!customer_to_edit" id="add-new-customer-modal" class="create_customer">
-			<div class="add-customer-body-wrapper">
-				<div class="product-header">
-					<h3 @click="$bvModal.hide('add-new-customer-modal')" class="close-popup">Add Customer</h3>
-				</div>
-				<div class="product-body">
-					<h2 class="black">Enter customer details</h2>
-					<div class="form">
-						<div class="row">
-							<div class="col-6">
-								<div class="form-group">
-									<label for="first-name">First Name</label>
-									<input v-model="customer.first_name" id="first-name" class="form-control">
+		<div class="nav-margin-top">
+			<div v-if="!customer_to_edit.id" id="add-new-customer-modal" class="create_customer">
+				<div class="add-customer-body-wrapper">
+					<div class="product-header">
+						<h3 @click="$bvModal.hide('add-new-customer-modal')" class="close-popup">Add Customer</h3>
+					</div>
+					<div class="product-body">
+						<div class="form">
+							<div class="row">
+								<div class="col-6">
+									<div class="form-group">
+										<label for="first-name">First Name</label>
+										<input v-model="customer.first_name" id="first-name" class="form-control">
+									</div>
+								</div>
+								<div class="col-6">
+									<div class="form-group">
+										<label for="last-name">Last Name</label>
+										<input v-model="customer.last_name" id="last-name" class="form-control">
+									</div>
 								</div>
 							</div>
-							<div class="col-6">
-								<div class="form-group">
-									<label for="last-name">Last Name</label>
-									<input v-model="customer.last_name" id="last-name" class="form-control">
-								</div>
+							<div class="form-group">
+								<label for="your-email">Email Address</label>
+								<input v-model="customer.email" type="email" id="your-email" class="form-control">
 							</div>
-						</div>
-						<div class="form-group">
-							<label for="your-email">Email Address</label>
-							<input v-model="customer.email" type="email" id="your-email" class="form-control">
-						</div>
-						<div class="form-group">
-							<label for="your-email">Address</label>
-							<input v-model="customer.line1" id="your-address" class="form-control">
-						</div>
-						<div class="form-group">
-							<label for="your-phone">Phone number</label>
-							<input v-model="customer.phone" type="tel" id="your-phone" class="form-control">
+							<div class="form-group">
+								<label for="your-email">Address</label>
+								<input v-model="customer.line1" id="your-address" class="form-control">
+							</div>
+							<div class="form-group">
+								<label for="your-phone">Phone number</label>
+								<input v-model="customer.phone" type="tel" id="your-phone" class="form-control">
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<div v-else id="add-new-customer-modal" class="create_customer">
-			<div class="add-customer-body-wrapper">
-				<div class="product-header">
-					<h3 @click="$bvModal.hide('add-new-customer-modal')" class="close-popup">Add Customer</h3>
-				</div>
-				<div class="product-body">
-					<h2 class="black">Enter customer details</h2>
-					<div class="form">
-						<div class="row">
-							<div class="col-6">
-								<div class="form-group">
-									<label for="first-name">First Name</label>
-									<input v-model="edit.first_name" id="first-name" class="form-control">
+			<div v-else id="add-new-customer-modal" class="create_customer">
+				<div class="add-customer-body-wrapper">
+					<div class="product-header">
+						<h3 @click="$bvModal.hide('add-new-customer-modal')" class="close-popup">Add Customer</h3>
+					</div>
+					<div class="product-body">
+						<h2 class="black">Enter customer details</h2>
+						<div class="form">
+							<div class="row">
+								<div class="col-6">
+									<div class="form-group">
+										<label for="first-name">First Name</label>
+										<input v-model="edit.first_name" id="first-name" class="form-control">
+									</div>
+								</div>
+								<div class="col-6">
+									<div class="form-group">
+										<label for="last-name">Last Name</label>
+										<input v-model="edit.last_name" id="last-name" class="form-control">
+									</div>
 								</div>
 							</div>
-							<div class="col-6">
-								<div class="form-group">
-									<label for="last-name">Last Name</label>
-									<input v-model="edit.last_name" id="last-name" class="form-control">
-								</div>
+							<div class="form-group">
+								<label for="your-email">Email Address</label>
+								<input v-model="edit.email" type="email" id="your-email" class="form-control">
 							</div>
-						</div>
-						<div class="form-group">
-							<label for="your-email">Email Address</label>
-							<input v-model="edit.email" type="email" id="your-email" class="form-control">
-						</div>
-						<div class="form-group">
-							<label for="your-email">Address</label>
-							<input v-model="edit.line1" id="your-address" class="form-control">
-						</div>
-						<div class="form-group">
-							<label for="your-phone">Phone number</label>
-							<input v-model="edit.phone" type="tel" id="your-phone" class="form-control">
+							<div class="form-group">
+								<label for="your-email">Address</label>
+								<input v-model="edit.line1" id="your-address" class="form-control">
+							</div>
+							<div class="form-group">
+								<label for="your-phone">Phone number</label>
+								<input v-model="edit.phone" type="tel" id="your-phone" class="form-control">
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<div class="form-group">
-			<button v-if="from == 'sales'" class="btn-style" @click="checkout">Go to checkout</button>
-			<button v-else-if="!customer_to_edit" class="btn-style" @click="createCustomer">Save customer</button>
-			<button v-else class="btn-style" @click="editCustomer">Update customer</button>
+			<div class="form-group">
+				<button v-if="from == 'sales'" class="btn-style" @click="checkout">Go to checkout</button>
+				<button v-else-if="!customer_to_edit.id" class="btn-style" @click="createCustomer">Save customer</button>
+				<button v-else class="btn-style" @click="editCustomer">Update customer</button>
+			</div>
 		</div>
 	</div>
 </template>
@@ -140,7 +141,7 @@ export default {
 			saveCustomer(this.customer)
 			.then((res) => {
 				this.new_customer_id = res.data.customer.id
-				this.$store.commit(mutationTypes.SAVE_NEW_CUSTOMER, res.data.customer) // check why this is ...data.customer
+				this.$store.commit(mutationTypes.SAVE_NEW_CUSTOMER, res.data.customer)
 			})
 			// give success/failed feedback
 			// stay on if merchant wants to add another customer
@@ -149,6 +150,7 @@ export default {
 			updateCustomer(this.edit, this.customer_to_edit.id)
 			.then((res) => {
 				this.$store.commit(mutationTypes.UPDATE_CUSTOMER, {'id': this.customer_to_edit.id, 'updated_customer': res.data})
+				// give feedback
 			})
 		}
 	},

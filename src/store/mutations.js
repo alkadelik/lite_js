@@ -85,7 +85,6 @@ export default {
   },
   [mutationTypes.UPDATE_EMAIL_VERIFIED](state, data) {
     state.email_verified = data;
-    // console.log(state, data)
   },
   [mutationTypes.SET_FILTER_OPTION](state, data) {
     state.filter_option = data;
@@ -100,4 +99,7 @@ export default {
     let customer = state.customers.find(customer => customer.id == data.id)
     Object.assign(customer, data.updated_customer);
   },
+  // [mutationTypes.UPDATE_SALES](state, data) {
+  //   state.orders.push(data)
+  // },
 }

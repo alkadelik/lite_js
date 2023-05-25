@@ -5,24 +5,8 @@
         <div>
           <h3 v-if="show_back_button" @click="back" class="close-popup">{{ back_to }}</h3>
         </div>
-        <div class="" v-if="show_menu">
-          <div class="user-header-wrapper">
-            <div class="bell-icon">
-              <!-- <img src="../assets/images/icons/notification-bell-icon.svg" alt="bell icon"> -->
-            </div>
-            <label class="author-profile">
-              <!-- <img src="../assets/images/header-author-image.png" alt="Author Image"> -->
-            </label>
-            <div class="form">
-              <select id="authorLogin">
-                <option value="Login">Login</option>
-                <option value="Signup">Signup</option>
-              </select>
-            </div>
-          </div>
-          <div class="product-inventory-header">
-            <a  v-if="show_add_button" class="btn-style" @click="addEntity"><img src="../assets/images/icons/add-product-icon.svg" alt=""></a>
-          </div>
+        <div class="product-inventory-header">
+          <a  v-if="show_add_button" class="btn-style" @click="addEntity"><img src="../assets/images/icons/add-product-icon.svg" alt=""></a>
         </div>
       </div>
     </div>
@@ -40,7 +24,6 @@ export default {
 		return {
       show_add_button: true,
       show_back_button: true,
-      show_menu: false,
 		}
 	},
 	methods:{
@@ -58,11 +41,6 @@ export default {
 	},
   mounted() {
     switch(this.location.header_settings) {
-      case 0: // Dashboard
-        this.show_add_button=false
-        this.show_back_button=false
-        this.show_menu=true
-        break;
       case 10: // View product details | product detail has issues
       case 11: // Edit product
       case 12: // Add product
@@ -127,6 +105,7 @@ h3 {
   margin-left: 15px;
   font-size: 18px;
   font-weight: bold;
+  color: #4F635A;
 }
 .close-popup::before {
   content: url(http://127.0.0.1:8081/img/page-back-icon.ee1c1bcf.svg);

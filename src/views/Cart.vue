@@ -9,8 +9,8 @@
 		</div>
 		<div class="item_details">
 			<p class="name">{{ item.product_name }}</p>
-			<div class="price">
-				<h3>&#8358;{{ item.price }}</h3>
+			<div class="price" @click="editPrice(i)" data-bs-toggle="modal" data-bs-target="#exampleModal">
+				<h3>&#8358;{{ item.price }}<span>{{ item.new_price }}</span></h3>
 				<img src="../assets/images/icons/edit-price-icon.svg" alt="">
 			</div>
 			<div class="qty">
@@ -31,20 +31,22 @@
 		</div>
 	</div>
 
-	<div v-if="vegan" id="edit-price-modal" centered title="BootstrapVue"><!-- change price when adding sales if different -->
-		<div class="edit-price-body-wrapper">
-			<div class="product-body">
-				<h2 class="black">Hi,champ</h2>
-				<p class="dark">We understand price changes to have an accurate sales record Input the actual
-					amount you sold the product.</p>
-				<div class="form">
-					<div class="form-group">
-						<label for="edit-price">Enter amount sold</label> <br>
-						<input type="text" class="form-control" id="edit-price">
-					</div>
-					<div class="form-group">
-						<input type="submit" class="btn-style" value="Change Price">
-					</div>
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Update sale price</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>Input the price this item sold for if different from the store price. It only affects this sale and won't change anywhere else.</p>
+					Product: {{ product.product_name }} <br>
+					Current price: &#8358;{{ product.price }} <br>
+					<input v-model="sale_price" placeholder="Enter sale price">
+				</div>
+				<div class="modal-footer">
+					<button class="btn-style" @click="changePrice">Change price</button>
 				</div>
 			</div>
 		</div>
@@ -65,14 +67,20 @@ export default {
 	},
 	data: () => ({
 		cart: [],
+		product: {},
+		sale_price: '',
 	}),
 	methods: {
 		back() {
 			this.$router.replace('add_sale/_') // ideally have the items still selected
 		},
+		changePrice() {
+			this.product.sale_price = this.sale_price
+			this.product.price_change = true
+		},
 		decrease(i) {
 			let product = this.cart[i]
-			product.count--
+			product.count > 0 ? product.count -- : ''
 			// if (this.checkStock(product)) {
 			//   product.count++
 			//   product.subTotal = product.discountAmt
@@ -80,6 +88,9 @@ export default {
 			//     : (product.count * product.price)
 			//   this.$store.commit(mutationTypes.SAVE_CART, this.cart)
 			// }	
+		},
+		editPrice(i) {
+			this.product = this.cart[i]
 		},
 		increase(i) {
 			let product = this.cart[i]
@@ -106,18 +117,15 @@ export default {
 		if (this.cart_map.length > 0) {
 			let unpacked_cart = []
 			let inventory = this.inventory
-			// const basket = this.cart_map.map(function(item_id){
+
 			this.cart_map.map(item_id => {
 				let obj = inventory.find(item => item.id == item_id)
+				let  new_obj = {}
+				Object.assign(new_obj, obj)
 
-				obj.count > 0 ? '' : obj.count = 1 // doing this in case cart is coming from local storage and already has count
-				unpacked_cart.push(obj) // check that these are independent objects not references
-				
-				// let new_obj = Object.create(obj)
-				// new_obj.count = 1
-				// cart_array.push(new_obj) // check that these are independent objects not references
+				new_obj.count > 0 ? '' : new_obj.count = 1 // in case cart is recovered from localStorage & has count. Ensure object not created twice
+				unpacked_cart.push(new_obj)
 			})
-			// console.log('basket is', basket) // why is const basket not working?
 			this.$store.commit(mutationTypes.SAVE_UNPACKED_CART, unpacked_cart)
 			this.cart = unpacked_cart
 		}
@@ -154,7 +162,7 @@ export default {
 	/* width: 100%; */
   /* height: 91px; */
   border: 0.5px solid grey;
-  border-radius: 8px;
+  border-radius: 20px;
   overflow: hidden;
 }
 .img_wrapper img {
@@ -168,6 +176,7 @@ export default {
 }
 .price {
 	padding: 5px 0;
+	cursor: pointer;
 }
 .price h3, .price img {
 	display: inline-block;
@@ -201,5 +210,19 @@ export default {
 	align-items: center;
 	justify-content: center;
 	min-height: 32px;
+}
+.modal-content {
+	border-radius: 30px;
+	border: none;
+}
+.modal input {
+	width: 100%;
+	padding: 7px;
+	border-radius: 5px;
+	border: 1px solid gray;
+}
+.modal-footer button {
+	width: 100%;
+	padding: 12px;
 }
 </style>

@@ -49,7 +49,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { SET_HEADER_SETTINGS } from '@/store/mutationTypes'
+import * as mutationTypes from '@/store/mutationTypes'
 import Header from "../components/Header"
 import {
 	saveOrder,
@@ -75,7 +75,7 @@ export default {
       this.$router.go(-1)
     },
 		createOrderID() {
-      var ref_type ='2'; // '1' for purchase by merchant's customer
+      var ref_type ='2'; // '1' purchase by customer; 2, sale added by merchant
       var rand_int = Math.floor(Math.random() * 9999) + 1000;
       const today = new Date();
       var year = today
@@ -105,7 +105,6 @@ export default {
     },
 		saveOrderHandler() {
 			this.createOrderID()
-
 			let data = {
         items_count: this.cart_objects.length,
         total_amount: Number(this.shipping) + this.totalBeforeShipping,
@@ -128,7 +127,9 @@ export default {
       }
 
 			saveOrder(data)
-        .then(() => {
+        .then((res) => {
+          console.log(res.data.order)
+          this.$store.commit(mutationTypes.UPDATE_SALES, res.data.order)
           saveOrderItems(this.orderItems)
         })
         .catch((err) => {
@@ -148,30 +149,33 @@ export default {
 		}),
 		orderItems() {
       return this.cart_objects.map((item, i) => {
-        var order_item = {};
-        order_item.index = i + 1;
-        order_item.order = this.orderID;
-        order_item.product = item.id;
-        order_item.price_sold = item.price; // ideally should be a new price if this was changed
-        order_item.selected_option1 = item.selected_option;
-        order_item.selected_option2 = item.selected_option2;
-        order_item.qty = item.count;
-        order_item.productid = item.id;
-        order_item.sub_total = Number(item.price * item.count); // use new price if discount or manually changed
-        order_item.image_url = item.product_image;
-        order_item.has_feedback = item.has_feedback;
-        return order_item;
+        var order_item = {}
+        order_item.price_sold = item.price
+        order_item.sub_total = Number(item.price * item.count)
+        order_item.index = i + 1
+        order_item.order = this.orderID
+        order_item.product = item.id
+        order_item.selected_option1 = item.selected_option
+        order_item.selected_option2 = item.selected_option2
+        order_item.qty = item.count
+        order_item.productid = item.id
+        order_item.image_url = item.product_image
+        order_item.has_feedback = item.has_feedback
+        return order_item
       })
 		},
     totalBeforeShipping() {
       return this.cart_objects.reduce((total, item) => {
-        return (total + item.price) // should be item.count
+        return Number((total + item.price))
       }, 0)
     },
 	},
 	mounted() {
+    this.cart_objects.forEach(item => {
+      item.price_change ? item.price = item.sale_price : ''
+    })
 		this.customer_id != 0 ? this.has_customer = true : ''
-    this.$store.commit(SET_HEADER_SETTINGS, 22)
+    this.$store.commit(mutationTypes.SET_HEADER_SETTINGS, 22)
   }
 }
 </script>
