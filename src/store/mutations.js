@@ -105,8 +105,8 @@ export default {
     let customer = state.customers.find(customer => customer.id == data.id)
     Object.assign(customer, data.updated_customer);
   },
-  // [mutationTypes.UPDATE_PRODUCT](state, data) {
-  //   let product = state.inventory.find(product => product.id == data.id)
-  //   Object.assign(product, data.updated_product);
-  // },
+  [mutationTypes.UPDATE_PRODUCT](state, data) {
+    let product = state.inventory.find(product => product.id == data.id)
+    Object.assign(product, data.updated_product);
+  },
 }
