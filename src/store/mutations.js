@@ -30,12 +30,6 @@ export default {
   [mutationTypes.SAVE_SALE](state, data) {
     state.orders.push(data)
   },
-  // [mutationTypes.SET_ADD_BTN_DISPLAY](state, data) {
-  //   state.component_settings.display_add_button = data;
-  // },
-  // [mutationTypes.SET_BACK_BTN_DISPLAY](state, data) {
-  //   state.component_settings.display_back_button = data;
-  // },
   [mutationTypes.SET_CUSTOMER_TO_EDIT](state, data) {
     state.customer_to_edit = data;
   },
