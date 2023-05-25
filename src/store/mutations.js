@@ -99,7 +99,7 @@ export default {
     let customer = state.customers.find(customer => customer.id == data.id)
     Object.assign(customer, data.updated_customer);
   },
-  // [mutationTypes.UPDATE_SALES](state, data) {
-  //   state.orders.push(data)
-  // },
+  [mutationTypes.UPDATE_SALES](state, data) {
+    state.orders.push(data)
+  },
 }
