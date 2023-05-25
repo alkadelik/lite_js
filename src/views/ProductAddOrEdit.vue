@@ -63,7 +63,7 @@
                 <textarea id="product-description" class="form-control" v-model="edit_product.description"></textarea>
               </div>
               <div class="form-group">
-                <button class="btn-style float-btn-style" @click="editProduct">Save edits</button>
+                <button class="btn-style float-btn-style" @click="editProduct(edit_product, product_to_edit.id)">Save edits</button>
               </div>
             </div>
           </div>
@@ -80,7 +80,7 @@ import {
   createProduct,
   updateProduct,
 } from '@/services/apiServices'
-import { SET_HEADER_SETTINGS } from "@/store/mutationTypes"
+import * as mutationTypes from "@/store/mutationTypes"
 
 export default {
   name: 'AddOrEditProduct',
@@ -99,6 +99,7 @@ export default {
         product_name: '',
         price: '',
         description: '',
+        id: '',
       }
     }
   },
@@ -113,10 +114,8 @@ export default {
     createNewProduct(new_product) { // creates new product with the image only
       createProduct(new_product)
           .then((res) => {
-            console.log(res.data)
-            this.new_product.product_image = res.data.product_image;
-            this.new_product.id = res.data.id;
-            // this.new_product.temp_id = res.data.id;
+            this.new_product.id = res.data.id
+            // this.new_product.temp_id = res.data.id; // when creating multiple products at a time
           })
           .catch((err) => {
             console.log(err)
@@ -127,14 +126,17 @@ export default {
     },
     editProduct(product, id) {
       updateProduct(product, id)
-          .then(() => {
-            // fethcStoreInventory(this.store.slug);
+          .then((res) => {
+            this.new_product.id ? 
+              this.$store.commit(mutationTypes.SAVE_PRODUCT, res.data.product) :
+              this.$store.commit(mutationTypes.UPDATE_PRODUCT, {'id': id, 'updated_product': res.data.product})
           })
           .catch((err) => {
             console.log(err);
           })
           .finally(() => {
             // this.loading = false;
+            // clear new_product.id when done
           });
     },
     previewImage(event) {
@@ -156,7 +158,7 @@ export default {
       } catch { null }
 
       if (!this.product_to_edit.id) {
-        this.new_product.id ? this.editProduct(this.new_product, this.new_product.id) : this.createNewProduct(new_product) 
+        this.new_product.id ? this.editProduct(this.new_product, this.new_product.id) : this.createNewProduct(new_product)
       } else {
         this.editProduct(this.edit_product, this.product_to_edit.id)
       }
@@ -171,9 +173,10 @@ export default {
     this.edit_product.product_name = this.product_to_edit.product_name
     this.edit_product.price = this.product_to_edit.price
     this.edit_product.description = this.product_to_edit.description
+    this.edit_product.id = this.product_to_edit.id
   },
   beforeMount() {
-    this.$store.commit(SET_HEADER_SETTINGS, 11)
+    this.$store.commit(mutationTypes.SET_HEADER_SETTINGS, 11)
   }
 }
 </script>

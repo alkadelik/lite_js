@@ -27,6 +27,9 @@ export default {
   [mutationTypes.SAVE_NEW_CUSTOMER](state, data) {
     state.customers.push(data);
   },
+  [mutationTypes.SAVE_SALE](state, data) {
+    state.orders.push(data)
+  },
   // [mutationTypes.SET_ADD_BTN_DISPLAY](state, data) {
   //   state.component_settings.display_add_button = data;
   // },
@@ -70,6 +73,9 @@ export default {
   [mutationTypes.SAVE_ACCOUNT_ID](state, data) {
     state.account_id = data;
   },
+  [mutationTypes.SAVE_PRODUCT](state, data) {
+    state.inventory.push(data);
+  },
   [mutationTypes.SAVE_INVENTORY](state, data) {
     state.inventory = data;
     state.inventory.length > 0 ? state.has_product = true : ''
@@ -99,7 +105,8 @@ export default {
     let customer = state.customers.find(customer => customer.id == data.id)
     Object.assign(customer, data.updated_customer);
   },
-  [mutationTypes.UPDATE_SALES](state, data) {
-    state.orders.push(data)
-  },
+  // [mutationTypes.UPDATE_PRODUCT](state, data) {
+  //   let product = state.inventory.find(product => product.id == data.id)
+  //   Object.assign(product, data.updated_product);
+  // },
 }

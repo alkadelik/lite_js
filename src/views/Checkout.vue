@@ -129,7 +129,7 @@ export default {
 			saveOrder(data)
         .then((res) => {
           console.log(res.data.order)
-          this.$store.commit(mutationTypes.UPDATE_SALES, res.data.order)
+          this.$store.commit(mutationTypes.SAVE_SALE, res.data.order)
           saveOrderItems(this.orderItems)
         })
         .catch((err) => {
